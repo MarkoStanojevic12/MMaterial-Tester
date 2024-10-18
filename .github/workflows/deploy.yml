@@ -91,14 +91,15 @@ jobs:
       shell: bash
       run: |
         BUILD_DIR="build"
-        APK_TARGET="app"
+        APK_TARGET="appMaterialTester"
+        APK_PROJECT_DIR="MaterialTester"
         echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
         echo "APK_TARGET=$APK_TARGET" >> $GITHUB_ENV
         
         echo "INSTALL_DIR=install/${{ matrix.qtarch }}" >> $GITHUB_ENV
-        echo "APK_DIR=$BUILD_DIR/$APK_TARGET/android-build/build/outputs/apk/" >> $GITHUB_ENV
-        echo "ANDROID_BUILD_DIR=$BUILD_DIR/$APK_TARGET/android-build/" >> $GITHUB_ENV
-        echo "DEPLOYMENT_SETTINGS=$BUILD_DIR/$APK_TARGET/android-alpineapp-deployment-settings.json" >> $GITHUB_ENV
+        echo "APK_DIR=$BUILD_DIR/$APK_PROJECT_DIR/android-build/build/outputs/$APK_TARGET/" >> $GITHUB_ENV
+        echo "ANDROID_BUILD_DIR=$BUILD_DIR/$APK_PROJECT_DIR/android-build/" >> $GITHUB_ENV
+        echo "DEPLOYMENT_SETTINGS=$BUILD_DIR/$APK_PROJECT_DIR/android-$APK_TARGET-deployment-settings.json" >> $GITHUB_ENV
       
     - name: Configure CMake
       env:
