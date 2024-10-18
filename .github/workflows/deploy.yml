@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         qtarch: [wasm_singlethread, wasm_multithread, android_arm64_v8a, android_armv7]
-        qtversion: ['6.8.0']
+        qtversion: ['6.6.3']
         include:
           - qtarch: wasm_singlethread
             qttarget: 'desktop'
@@ -51,10 +51,10 @@ jobs:
     - uses: mymindstorm/setup-emsdk@v13
       if: matrix.qttarget == 'desktop'
       with:
-        version: 3.1.58
+        version: 3.1.37
         
     - name: Install Qt native version (required by android version)
-      uses: timangus/install-qt-action@v3
+      uses: jurplel/install-qt-action@v3
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
@@ -68,11 +68,11 @@ jobs:
       run: echo "QT_HOST_PATH=${Qt6_DIR}" >> "$GITHUB_ENV"
 
     - name: Install Qt crosscompile target version
-      uses: timangus/install-qt-action@v3
+      uses: jurplel/install-qt-action@v3
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
-        host: all_os
+        host: linux
         target: ${{ matrix.qttarget }}
         arch: ${{ matrix.qtarch }}
         dir: '${{github.workspace}}/qt'
