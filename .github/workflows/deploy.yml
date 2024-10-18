@@ -21,21 +21,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qtarch: [wasm_singlethread, wasm_multithread, android_arm64_v8a, android_armv7]
+        qtarch: [wasm_singlethread, android_arm64_v8a]
         qtversion: ['6.6.3']
         include:
           - qtarch: wasm_singlethread
             qttarget: 'desktop'
             qtmodules: ''
             additional_build_flags: '--target install'
-          - qtarch: wasm_multithread
-            qttarget: 'desktop'
-            qtmodules: ''
-            additional_build_flags: '--target install'
+          # - qtarch: wasm_multithread
+          #   qttarget: 'desktop'
+          #   qtmodules: ''
+          #   additional_build_flags: '--target install'
           - qtarch: android_arm64_v8a
             qttarget: 'android'
-          - qtarch: android_armv7
-            qttarget: 'android'
+          # - qtarch: android_armv7
+          #   qttarget: 'android'
           
     steps:
     - name: Install dependencies
