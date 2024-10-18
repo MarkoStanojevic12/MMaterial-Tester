@@ -1,0 +1,230 @@
+name: "Deploy"
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "deploy"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        qtarch: [wasm_singlethread, wasm_multithread, android_arm64_v8a, android_armv7]
+        qtversion: ['6.8.0']
+        include:
+          - qtarch: wasm_singlethread
+            qttarget: 'desktop'
+            qtmodules: ''
+            additional_build_flags: '--target install'
+          - qtarch: wasm_multithread
+            qttarget: 'desktop'
+            qtmodules: ''
+            additional_build_flags: '--target install'
+          - qtarch: android_arm64_v8a
+            qttarget: 'android'
+          - qtarch: android_armv7
+            qttarget: 'android'
+          
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential ninja-build
+        
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+    
+    - uses: mymindstorm/setup-emsdk@v13
+      if: matrix.qttarget == 'desktop'
+      with:
+        version: 3.1.58
+        
+    - name: Install Qt native version (required by android version)
+      uses: jurplel/install-qt-action@v3
+      with:
+        aqtversion: '==3.1.*'
+        version: ${{ matrix.qtversion }}
+        host: linux
+        target: 'desktop'
+        arch: gcc_64
+        dir: '${{github.workspace}}/qt'
+        install-deps: 'true'
+
+    - name: Set QT_HOST_PATH
+      run: echo "QT_HOST_PATH=${Qt6_DIR}" >> "$GITHUB_ENV"
+
+    - name: Install Qt crosscompile target version
+      uses: jurplel/install-qt-action@v3
+      with:
+        aqtversion: '==3.1.*'
+        version: ${{ matrix.qtversion }}
+        host: linux
+        target: ${{ matrix.qttarget }}
+        arch: ${{ matrix.qtarch }}
+        dir: '${{github.workspace}}/qt'
+        install-deps: 'true'
+        modules: ${{ matrix.qtmodules }}
+
+    - name: Make qt cross binaries executable
+      run: |
+        chmod u+x ${Qt6_DIR}/bin/*
+
+    - name: Verify emcc
+      if: matrix.qttarget == 'desktop'
+      run: emcc -v
+
+    - name: Set reusable strings
+      shell: bash
+      run: |
+        BUILD_DIR="build"
+        APK_TARGET="app"
+        echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+        echo "APK_TARGET=$APK_TARGET" >> $GITHUB_ENV
+        
+        echo "INSTALL_DIR=install/${{ matrix.qtarch }}" >> $GITHUB_ENV
+        echo "APK_DIR=$BUILD_DIR/$APK_TARGET/android-build/build/outputs/apk/" >> $GITHUB_ENV
+        echo "ANDROID_BUILD_DIR=$BUILD_DIR/$APK_TARGET/android-build/" >> $GITHUB_ENV
+        echo "DEPLOYMENT_SETTINGS=$BUILD_DIR/$APK_TARGET/android-alpineapp-deployment-settings.json" >> $GITHUB_ENV
+      
+    - name: Configure CMake
+      env:
+        CMAKE_PREFIX_PATH: ${{env.Qt6_DIR}}/lib/cmake
+      run: >
+        ${Qt6_DIR}/bin/qt-cmake
+        -G Ninja
+        -B $BUILD_DIR
+        -S ./MaterialTester
+        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+        ${{ matrix.additional_cmake_flags }}
+        -S ${{ github.workspace }}
+
+    - name: Build
+      run: cmake --build $BUILD_DIR ${{ matrix.additional_build_flags }}
+
+    - name: Signing Android package with common key
+      env: 
+        secret_test: ${{ secrets.KEYSTOREPASSWORD }}
+      if: matrix.qttarget == 'android' && env.secret_test != ''
+      run: |
+        echo ${{ secrets.SIGNINGKEYBASE64 }} > release.keystore.base64
+        base64 -d release.keystore.base64 > release.keystore
+        $QT_HOST_PATH/bin/androiddeployqt --input $DEPLOYMENT_SETTINGS --output $ANDROID_BUILD_DIR --android-platform android-33 --gradle --release --sign release.keystore alpinemaps --storepass ${{ secrets.KEYSTOREPASSWORD }}
+        
+    - name: Signing Android packages with generated key
+      env: 
+        secret_test: ${{ secrets.KEYSTOREPASSWORD }}
+      if: matrix.qttarget == 'android' && env.secret_test == ''
+      run: |
+        keytool -genkey -v -keystore release.keystore -alias alpinemaps -keyalg RSA -sigalg SHA1withRSA -keysize 2048 -validity 10000 -keypass asdfasdf -storepass asdfasdf -dname "CN=Franz, OU=IT, O=Furz, L=Rattenberg, ST=Tirol, C=AT"
+        $QT_HOST_PATH/bin/androiddeployqt --input $DEPLOYMENT_SETTINGS --output $ANDROID_BUILD_DIR --android-platform android-33 --gradle --release --sign release.keystore alpinemaps --storepass asdfasdf
+        
+        README_PATH=$APK_DIR/read_me.txt
+        echo "The apk was signed with a generated key which changes every time the apk is generated. This means, that android might refuse to install it if another apk with the same app was installed previously. You'll have to deinstall it. Doing so will delete all settings and cache." >> $README_PATH
+        echo "" >> $README_PATH
+        echo "In order to prevent that, you have to generate your own key or use our public key:" >> $README_PATH
+        echo "" >> $README_PATH
+        echo "To generate your own key:" >> $README_PATH
+        echo "- https://stackoverflow.com/questions/3997748/how-can-i-create-a-keystore. Use 'alpinemaps' as the alias!" >> $README_PATH
+        echo "- If you have the android dev setup ready in Qt Creator, you can also create the keystore via Projects (on the left side toolboar) -> Android Qt ... -> Build -> Build Steps -> Build Android APK -> Application Signature -> Create.  Use 'alpinemaps' as the alias!" >> $README_PATH
+        echo "- Then you have to encode the keystore in base64, e.g., on linux via 'base64 keystorefile > keystorefile.base64'" >> $README_PATH
+        echo "- Finally, create the following secrets in github -> your repo -> Settings -> Secrets and variables -> Actions -> Repository secrets" >> $README_PATH
+        echo "  SIGNINGKEYBASE64 = the base64 encoded key" >> $README_PATH
+        echo "  KEYSTOREPASSWORD = the password used to create the keystore" >> $README_PATH
+        echo "" >> $README_PATH
+        echo "To use our public key, go to https://github.com/AlpineMapsOrg/renderer/blob/main/creating_apk_keys.md" >> $README_PATH
+        echo "" >> $README_PATH
+        echo "Oh, and I hope this saved your day :)" >> $README_PATH
+      
+    - name: Copy android packages
+      if: matrix.qttarget == 'android'
+      run: |
+        mkdir -p $INSTALL_DIR
+        cp -r $APK_DIR/* $INSTALL_DIR
+
+    - name: Create artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: files_${{ matrix.qtarch }}
+        path: ${{ github.workspace }}/install/
+        if-no-files-found: error
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Install dependencies
+      run: sudo apt-get install -y lftp
+      
+    - name: Clone repository (only for version number)
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+    
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: ${{github.workspace}}/downloaded
+    
+    - name: Move into place
+      run: |
+        mkdir $GITHUB_WORKSPACE/github_page
+        mv $GITHUB_WORKSPACE/downloaded/*/* $GITHUB_WORKSPACE/github_page/
+        
+    - name: Upload to an FTP host
+      env: 
+        FTP_USER: ${{ secrets.FTP_USER }}
+        FTP_PASS: ${{ secrets.FTP_PASS }}
+        FTP_HOST: ${{ secrets.FTP_HOST }}
+      if: env.FTP_HOST != ''
+      run: |
+        reponame=$(echo $GITHUB_REPOSITORY  | grep -oE "[^/]*$")
+        lftp -c "
+        set ftp:ssl-force true;
+        open -u $FTP_USER,$FTP_PASS $FTP_HOST;
+        mirror -R -e -v -n $GITHUB_WORKSPACE/github_page/. ./${reponame}_$(git describe --tags --dirty=-d --abbrev=1);
+        "
+      
+    - name: Fix headers for wasm_multithread
+      run: |
+        cd $GITHUB_WORKSPACE/github_page/wasm_multithread
+        wget https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js
+        sed -i -e 's#<body onload="init()">#<body onload="init()"><script src="coi-serviceworker\.min\.js"></script>#g' alpineapp.html
+        
+    - name: Generate Directory Listings
+      uses: jayanta525/github-pages-directory-listing@v4.0.0
+      with:
+        FOLDER: github_page
+    
+    - name: Create Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ${{github.workspace}}/github_page
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+

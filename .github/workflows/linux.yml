@@ -1,0 +1,103 @@
+name: Linux tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+concurrency:
+  group: "linux"
+  cancel-in-progress: true
+  
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc12, clang15, clang17]
+        build_type: [Release]
+        include:
+          - compiler: gcc12
+            CC: "/usr/bin/gcc-12"
+            CXX: "/usr/bin/g++-12"
+          - compiler: clang15
+            CC: '/usr/bin/clang-15'
+            CXX: '/usr/bin/clang++-15'
+          - compiler: clang17
+            CC: '/usr/bin/clang-17'
+            CXX: '/usr/bin/clang++-17'
+            
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+        
+    - name: Install Clang 17
+      if: matrix.compiler == 'clang17'
+      run: |
+       wget https://apt.llvm.org/llvm.sh
+       chmod +x ./llvm.sh
+       sudo ./llvm.sh 17
+        
+    - name: Install Linux Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential ninja-build lld clang-15 libgl1-mesa-dev libxcb-cursor-dev xorg-dev libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev xvfb libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        aqtversion: '==3.1.*'
+        version: '6.8.0'
+        host: 'linux'
+        target: 'desktop'
+        arch: 'gcc_64'
+        dir: '${{github.workspace}}/qt'
+        install-deps: 'true'
+        modules: 'qtcharts qtpositioning'
+
+    - name: Configure
+      env:
+        CC: ${{ matrix.CC }}
+        CXX: ${{ matrix.CXX }}
+        CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}/lib/cmake
+      run: >
+        cmake -G Ninja 
+        -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} 
+        -DCMAKE_BUILD_TYPE=Debug
+        -B ./build
+        -S ./MaterialTester
+
+    - name: Build
+      env:
+        CC: ${{ matrix.CC }}
+        CXX: ${{ matrix.CXX }}
+      run: |
+        cmake --build ./build
+# 
+#     - name: Don't close loaded libraries for better sanitizer output
+#       env:
+#         CC: ${{ matrix.CC }}
+#         CXX: ${{ matrix.CXX }}
+#       run: |
+#         echo "#include <stdio.h>" >> dlclose.c
+#         echo "int dlclose(void*) { return 0; }" >> dlclose.c
+#         $CC --shared dlclose.c -o libdlclose.so
+#       
+#     - name: Unittests on Linux
+#       env:
+#         QT_QPA_PLATFORM: offscreen
+#         DISPLAY: :1
+#         LD_PRELOAD: ./libdlclose.so
+#         LSAN_OPTIONS: suppressions=./sanitizer_supressions/linux_leak.supp
+#         ASAN_OPTIONS: verify_asan_link_order=0
+#       run: |
+#         ./build/alp_external/radix/unittests/unittests_radix
+#         ./build/unittests/nucleus/unittests_nucleus
+#         Xvfb :1 -screen 0 1024x768x16 &
+#         sleep 5
+#         ./build/unittests/gl_engine/unittests_gl_engine
+#         ./build/app/alpineapp
