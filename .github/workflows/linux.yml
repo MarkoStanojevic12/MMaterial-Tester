@@ -54,10 +54,9 @@ jobs:
         version: '6.8.0'
         host: 'linux'
         target: 'desktop'
-        arch: 'gcc_64'
+        arch: 'linux_gcc_64'
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'
-        modules: 'qtcharts qtpositioning'
 
     - name: Configure
       env:

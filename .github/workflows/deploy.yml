@@ -54,13 +54,13 @@ jobs:
         version: 3.1.58
         
     - name: Install Qt native version (required by android version)
-      uses: jurplel/install-qt-action@v3
+      uses: timangus/install-qt-action@v3
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
         host: linux
         target: 'desktop'
-        arch: gcc_64
+        arch: linux_gcc_64
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'
 
@@ -68,11 +68,11 @@ jobs:
       run: echo "QT_HOST_PATH=${Qt6_DIR}" >> "$GITHUB_ENV"
 
     - name: Install Qt crosscompile target version
-      uses: jurplel/install-qt-action@v3
+      uses: timangus/install-qt-action@v3
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
-        host: linux
+        host: all_os
         target: ${{ matrix.qttarget }}
         arch: ${{ matrix.qtarch }}
         dir: '${{github.workspace}}/qt'
