@@ -107,11 +107,10 @@ jobs:
         ${Qt6_DIR}/bin/qt-cmake
         -G Ninja
         -B $BUILD_DIR
-        -S ./MaterialTester
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
         ${{ matrix.additional_cmake_flags }}
-        -S ${{ github.workspace }}
+        -S ${{ github.workspace }}/MaterialTester
 
     - name: Build
       run: cmake --build $BUILD_DIR ${{ matrix.additional_build_flags }}
