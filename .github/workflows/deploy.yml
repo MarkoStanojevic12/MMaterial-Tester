@@ -28,14 +28,14 @@ jobs:
             qttarget: 'desktop'
             qtmodules: ''
             additional_build_flags: '--target install'
-          - qtarch: wasm_multithread
-            qttarget: 'desktop'
-            qtmodules: ''
-            additional_build_flags: '--target install'
+          # - qtarch: wasm_multithread
+          #   qttarget: 'desktop'
+          #   qtmodules: ''
+          #   additional_build_flags: '--target install'
           - qtarch: android_arm64_v8a
             qttarget: 'android'
-          - qtarch: android_armv7
-            qttarget: 'android'
+          # - qtarch: android_armv7
+          #   qttarget: 'android'
           
     steps:
     - name: Install dependencies
@@ -204,13 +204,7 @@ jobs:
         open -u $FTP_USER,$FTP_PASS $FTP_HOST;
         mirror -R -e -v -n $GITHUB_WORKSPACE/github_page/. ./${reponame}_$(git describe --tags --dirty=-d --abbrev=1);
         "
-      
-    - name: Fix headers for wasm_multithread
-      run: |
-        cd $GITHUB_WORKSPACE/github_page/wasm_multithread
-        wget https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js
-        sed -i -e 's#<body onload="init()">#<body onload="init()"><script src="coi-serviceworker\.min\.js"></script>#g' alpineapp.html
-        
+
     - name: Generate Directory Listings
       uses: jayanta525/github-pages-directory-listing@v4.0.0
       with:
