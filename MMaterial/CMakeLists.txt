@@ -3,23 +3,7 @@ qt_add_library(MMaterialLib STATIC)
 set_target_properties(MMaterialLib PROPERTIES AUTOMOC ON)
 target_link_libraries(MMaterialLib PRIVATE Qt6::Quick)
 
-# In order to update assets you need to:
-# 1. check RefreshAssets in Build Steps
-# 2. Rebuild project
-# 3. Run cmake (you have to rerun it after build)
-
-add_custom_target(RefreshAssets
-    COMMAND ${CMAKE_COMMAND} -E env python refresh_assets.py
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Running the Python script to refresh assets"
-    VERBATIM
-)
-
 target_compile_definitions(MMaterialLib PRIVATE QT_QUICKCONTROLS_MATERIAL_STYLE)
-
-# Read the contents of the file into a variable
-file(READ "./cmake_data/svgPaths.txt" SVG_ASSETS)
-file(READ "./cmake_data/pngPaths.txt" PNG_ASSETS)
 
 list(APPEND MODULE_ASSETS
     # Fonts
@@ -30,11 +14,7 @@ list(APPEND MODULE_ASSETS
     Fonts/Families/PublicSans/PublicSans-Regular.ttf
     Fonts/Families/PublicSans/PublicSans-Light.ttf
     Fonts/Families/PublicSans/PublicSans-ExtraLight.ttf
-
     Icons/assets/icomoon.ttf
-
-    ${PNG_ASSETS}
-    ${SVG_ASSETS}
 )
 
 list(APPEND MODULE_QML_FILES
@@ -205,4 +185,19 @@ qt_add_qml_module(MMaterialLib
     QML_FILES ${MODULE_QML_FILES}
     RESOURCES ${MODULE_ASSETS}
     SOURCES ${MODULE_SOURCES}
+)
+
+# Read the contents of the file into a variable
+file(GLOB PNG_ASSETS "Icons/assets/png/*.png")
+file(GLOB JPEG_ASSETS "Icons/assets/png/*.jpeg")
+file(GLOB SVG_ASSETS "Icons/assets/svg/*.svg")
+
+qt_add_resources(MMaterialLib
+    "mmaterial_icons"
+    BASE "${CMAKE_CURRENT_SOURCE_DIR}"
+    PREFIX "MMaterial"
+    FILES
+    ${PNG_ASSETS}
+    ${JPEG_ASSETS}
+    ${SVG_ASSETS}
 )

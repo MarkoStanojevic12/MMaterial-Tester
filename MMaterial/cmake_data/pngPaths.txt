@@ -1,1 +1,0 @@
-Icons/assets/png\abstract_futuristic_3D_shape_1.jpeg;Icons/assets/png\abstract_futuristic_3D_shape_2.jpeg;Icons/assets/png\abstract_futuristic_3D_shape_3.jpeg;Icons/assets/png\programmer-female.png;Icons/assets/png\programmer-female2.png;Icons/assets/png\programmer-male.png;Icons/assets/png\programmer-male2.png

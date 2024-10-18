@@ -1,3 +1,4 @@
+#include <QDirIterator>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -15,7 +16,16 @@ int main(int argc, char *argv[])
 	qputenv("MAIN_QML","../../../MaterialTester/Main.qml");
 #endif
     QGuiApplication app(argc, argv);
-
+    // // output qrc files:
+    // {
+    //     qDebug() << "qrc files:";
+    //     QDirIterator it(":", QDirIterator::Subdirectories);
+    //     while (it.hasNext()) {
+    //         const auto path = it.next();
+    //         const auto file = QFile(path);
+    //         qDebug() << path << " size: " << file.size() / 1024 << "kb";
+    //     }
+    // }
     CustomEngine engine;
 	Clipboard clipboard;
 
