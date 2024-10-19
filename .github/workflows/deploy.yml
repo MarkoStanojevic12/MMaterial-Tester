@@ -118,7 +118,7 @@ jobs:
       run: cmake --build $BUILD_DIR ${{ matrix.additional_build_flags }}
       
     - name: Debug output
-      run: find ${{ github.workspace }} -print | sed -e 's;[^/]*/;|   ;g;s;|   $;|-- ;'
+      run: find ${{ github.workspace }} -type d -print | sed -e 's;[^/]*/;|   ;g;s;|   $;|-- ;'
 
     - name: Signing Android package with common key
       env: 
