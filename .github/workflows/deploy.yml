@@ -102,7 +102,7 @@ jobs:
         echo "DEPLOYMENT_SETTINGS=$BUILD_DIR/android-$APK_TARGET-deployment-settings.json" >> $GITHUB_ENV
 
       
-    - name: Configure CMake
+    - name: Configure CMake 
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt6_DIR}}/lib/cmake
       run: >
