@@ -105,10 +105,30 @@ set_target_properties(appMaterialTester PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS appMaterialTester
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if (EMSCRIPTEN)
 
+    set(MM_INSTALL_FILES
+        "$<TARGET_FILE_DIR:appMaterialTester>/appMaterialTester.js"
+        "$<TARGET_FILE_DIR:appMaterialTester>/appMaterialTester.wasm"
+        "$<TARGET_FILE_DIR:appMaterialTester>/appMaterialTester.html"
+        "$<TARGET_FILE_DIR:appMaterialTester>/qtloader.js"
+    )
+
+    # if (MM_ENABLE_THREADING)
+    #     list(APPEND ALP_INSTALL_FILES "$<TARGET_FILE_DIR:alpineapp>/alpineapp.worker.js")
+    # endif()
+    install(FILES ${MM_INSTALL_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX})
+else()
+    install(TARGETS appMaterialTester
+        BUNDLE DESTINATION .
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+
+    install(TARGETS appMaterialTester
+        BUNDLE DESTINATION .
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+endif()
 
