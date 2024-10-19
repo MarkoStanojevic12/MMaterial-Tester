@@ -97,7 +97,7 @@ jobs:
         echo "APK_TARGET=$APK_TARGET" >> $GITHUB_ENV
         
         echo "INSTALL_DIR=${{ github.workspace }}/install/${{ matrix.qtarch }}" >> $GITHUB_ENV
-        echo "APK_DIR=$BUILD_DIR/android-build/build/outputs/$APK_TARGET/" >> $GITHUB_ENV
+        echo "APK_DIR=$BUILD_DIR/android-build/build/outputs/apk/" >> $GITHUB_ENV
         echo "ANDROID_BUILD_DIR=$BUILD_DIR/android-build/" >> $GITHUB_ENV
         echo "DEPLOYMENT_SETTINGS=$BUILD_DIR/android-$APK_TARGET-deployment-settings.json" >> $GITHUB_ENV
 
