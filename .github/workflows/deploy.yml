@@ -60,7 +60,7 @@ jobs:
         version: ${{ matrix.qtversion }}
         host: linux
         target: 'desktop'
-        arch: gcc_64
+        arch: linux_gcc_64
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'
 
