@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         qtarch: [wasm_singlethread, android_arm64_v8a]
-        qtversion: ['6.6.3']
+        qtversion: ['6.7.3']
         include:
           - qtarch: wasm_singlethread
             qttarget: 'desktop'
@@ -54,7 +54,7 @@ jobs:
         version: 3.1.37
         
     - name: Install Qt native version (required by android version)
-      uses: jurplel/install-qt-action@v3
+      uses: timangus/install-qt-action
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
@@ -68,7 +68,7 @@ jobs:
       run: echo "QT_HOST_PATH=${Qt6_DIR}" >> "$GITHUB_ENV"
 
     - name: Install Qt crosscompile target version
-      uses: jurplel/install-qt-action@v3
+      uses: timangus/install-qt-action
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
