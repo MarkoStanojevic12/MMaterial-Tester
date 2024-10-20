@@ -54,7 +54,7 @@ jobs:
         version: 3.1.37
         
     - name: Install Qt native version (required by android version)
-      uses: timangus/install-qt-action
+      uses: timangus/install-qt-action@v1
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
@@ -68,7 +68,7 @@ jobs:
       run: echo "QT_HOST_PATH=${Qt6_DIR}" >> "$GITHUB_ENV"
 
     - name: Install Qt crosscompile target version
-      uses: timangus/install-qt-action
+      uses: timangus/install-qt-action@v1
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
