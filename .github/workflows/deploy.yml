@@ -53,7 +53,7 @@ jobs:
     - uses: mymindstorm/setup-emsdk@v13
       if: matrix.qttarget == 'desktop'
       with:
-        version: 3.1.37
+        version: 3.1.50
         
     - name: Install Qt native version (required by android version)
       uses: timangus/install-qt-action@deployed
