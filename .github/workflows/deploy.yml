@@ -29,6 +29,7 @@ jobs:
             qthost: 'all_os'
             qtmodules: ''
             additional_build_flags: '--target install'
+            aqtsource: 'git+https://github.com/timangus/aqtinstall.git'
           # - qtarch: wasm_multithread
           #   qttarget: 'desktop'
           #   qtmodules: ''
@@ -36,6 +37,7 @@ jobs:
           - qtarch: android_arm64_v8a
             qttarget: 'android'
             qthost: 'linux'
+            aqtsource: 'git+https://github.com/miurahr/aqtinstall.git'
           # - qtarch: android_armv7
           #   qttarget: 'android'
           
@@ -58,7 +60,7 @@ jobs:
     - name: Install Qt native version (required by android version)
       uses: timangus/install-qt-action@deployed
       with:
-        aqtsource: 'git+https://github.com/timangus/aqtinstall.git'
+        aqtsource: ${{ matrix.aqtsource }}
         version: ${{ matrix.qtversion }}
         host: linux
         target: 'desktop'
@@ -72,7 +74,7 @@ jobs:
     - name: Install Qt crosscompile target version
       uses: timangus/install-qt-action@deployed
       with:
-        aqtsource: 'git+https://github.com/timangus/aqtinstall.git'
+        aqtsource: ${{ matrix.aqtsource }}
         version: ${{ matrix.qtversion }}
         host: ${{ matrix.qthost }}
         target: ${{ matrix.qttarget }}
