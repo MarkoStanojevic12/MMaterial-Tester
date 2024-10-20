@@ -72,7 +72,7 @@ jobs:
       with:
         aqtversion: '==3.1.*'
         version: ${{ matrix.qtversion }}
-        host: linux
+        host: all_os
         target: ${{ matrix.qttarget }}
         arch: ${{ matrix.qtarch }}
         dir: '${{github.workspace}}/qt'
