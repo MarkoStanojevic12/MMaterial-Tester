@@ -51,7 +51,7 @@ jobs:
         fetch-tags: true
     
     - uses: mymindstorm/setup-emsdk@v13
-      if: matrix.qttarget == 'desktop'
+      if: matrix.qttarget == 'wasm'
       with:
         version: 3.1.50
         
