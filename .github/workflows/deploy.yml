@@ -58,7 +58,8 @@ jobs:
     - name: Install Qt native version (required by android version)
       uses: timangus/install-qt-action@deployed
       with:
-        aqtversion: '==master'
+        aqtversion: '==3.1.*'
+        aqtsource: 'git+https://github.com/timangus/aqtinstall.git'
         version: ${{ matrix.qtversion }}
         host: linux
         target: 'desktop'
@@ -72,7 +73,8 @@ jobs:
     - name: Install Qt crosscompile target version
       uses: timangus/install-qt-action@deployed
       with:
-        aqtversion: '==master'
+        aqtversion: '==3.1.*'
+        aqtsource: 'git+https://github.com/timangus/aqtinstall.git'
         version: ${{ matrix.qtversion }}
         host: ${{ matrix.qthost }}
         target: ${{ matrix.qttarget }}
