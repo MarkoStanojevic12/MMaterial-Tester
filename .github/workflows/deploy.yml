@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         qtarch: [wasm_singlethread, android_arm64_v8a]
-        qtversion: ['6.8.0']
+        qtversion: ['6.7.3']
         include:
           - qtarch: wasm_singlethread
             qttarget: 'wasm'
