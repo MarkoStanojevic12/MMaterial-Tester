@@ -104,6 +104,9 @@ Popup {
         add: Transition {
             NumberAnimation { properties: "x"; from: d.horizontalDirection == Item.Left ? -_contentRoot.width : _contentRoot.width; duration: 500; easing.type: Easing.OutBack }
         }
+        remove: Transition {
+            NumberAnimation { properties: "x"; easing.type: Easing.OutBack }
+        }
         displaced: Transition {
             NumberAnimation { properties: "x,y"; duration: 500; easing.type: Easing.OutBack }
         }
