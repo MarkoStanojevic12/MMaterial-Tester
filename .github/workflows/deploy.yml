@@ -162,11 +162,6 @@ jobs:
       matrix:
         config: [wasm_mt, wasm_st]
         include:
-          # - config: wasm_mt_lto
-          #   qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -feature-thread'
-          #   cmakeflags: '-DALP_ENABLE_THREADING=ON -DALP_ENABLE_ASSERTS=OFF'
-          #   qtversion: '6.8.1'
-          #   webassembly_version: "3.1.56"
           - config: wasm_light_lto
             qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
@@ -182,6 +177,11 @@ jobs:
             cmakeflags: ''
             qtversion: '6.8.1'
             webassembly_version: "3.1.56"
+          # - config: wasm_mt_lto
+          #   qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -feature-thread'
+          #   cmakeflags: '-DALP_ENABLE_THREADING=ON -DALP_ENABLE_ASSERTS=OFF'
+          #   qtversion: '6.8.1'
+          #   webassembly_version: "3.1.56"
             
     steps:
     - name: Install dependencies
