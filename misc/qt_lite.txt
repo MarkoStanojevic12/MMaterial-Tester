@@ -42,7 +42,7 @@
 -no-feature-mimetype
 -no-feature-datetimeparser
 -no-feature-qml-debug
--no-feature-quicktemplates2-calendar
+-feature-quicktemplates2-calendar
 -no-feature-quicktemplates2-hover
 -no-feature-quicktemplates2-multitouch
 -no-feature-imageformat_bmp
