@@ -161,7 +161,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [wasm_mt, wasm_st]
+        config: [wasm_light_lto, wasm_light_st, wasm_debug]
         include:
           - config: wasm_light_lto
             qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
