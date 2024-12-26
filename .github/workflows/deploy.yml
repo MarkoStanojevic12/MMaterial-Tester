@@ -101,7 +101,6 @@ jobs:
         -B $BUILD_DIR
         -DQT_HOST_PATH=${QT_HOST_ROOT_DIR}
         -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
         ${{ matrix.additional_cmake_flags }}
         -S ${{ github.workspace }}/MaterialTester
 
@@ -264,7 +263,7 @@ jobs:
         -G Ninja
         -B $BUILD_DIR
         -DCMAKE_BUILD_TYPE=MinSizeRel
-        -DALP_WWW_INSTALL_DIR=$INSTALL_DIR
+        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
         -DALP_ENABLE_LTO=ON
         -DFMT_INSTALL=OFF
         ${{ matrix.cmakeflags }}
