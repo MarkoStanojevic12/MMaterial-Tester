@@ -40,19 +40,20 @@ jobs:
           mklink libglapi.dll "x64\libglapi.dll"
     
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         aqtversion: '==3.1.*'
-        version: '6.8.0'
+        version: '6.8.1'
         host: windows
         target: 'desktop'
         arch: 'win64_msvc2022_64'
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'
+        cache: true
     
     - name: Configure
       env:
-        CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}/lib/cmake
+        CMAKE_PREFIX_PATH: ${{env.QT_ROOT_DIR}}/lib/cmake
       run: >
         cmake -G Ninja
         -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}

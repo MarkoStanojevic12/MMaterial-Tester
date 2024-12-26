@@ -1,0 +1,43 @@
+diff --git a/src/plugins/platforms/wasm/CMakeLists.txt b/src/plugins/platforms/wasm/CMakeLists.txt
+index 2c9e3ec867..c116b6a437 100644
+--- a/src/plugins/platforms/wasm/CMakeLists.txt
++++ b/src/plugins/platforms/wasm/CMakeLists.txt
+@@ -50,10 +50,10 @@ qt_internal_add_plugin(QWasmIntegrationPlugin
+ )
+ 
+ # Resources:
+-set(wasmfonts_resource_files
+-    "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSans.ttf"
+-    "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSansMono.ttf"
+-)
++# set(wasmfonts_resource_files
++#     "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSans.ttf"
++#     "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSansMono.ttf"
++# )
+ 
+ qt_internal_add_resource(QWasmIntegrationPlugin "wasmfonts"
+     PREFIX
+diff --git a/src/plugins/platforms/wasm/qwasmfontdatabase.cpp b/src/plugins/platforms/wasm/qwasmfontdatabase.cpp
+index 3f3dc10f71..12c891b73d 100644
+--- a/src/plugins/platforms/wasm/qwasmfontdatabase.cpp
++++ b/src/plugins/platforms/wasm/qwasmfontdatabase.cpp
+@@ -266,8 +266,8 @@ void QWasmFontDatabase::populateFontDatabase()
+ {
+     // Load bundled font file from resources.
+     const QString fontFileNames[] = {
+-        QStringLiteral(":/fonts/DejaVuSansMono.ttf"),
+-        QStringLiteral(":/fonts/DejaVuSans.ttf"),
++        // QStringLiteral(":/fonts/DejaVuSansMono.ttf"),
++        // QStringLiteral(":/fonts/DejaVuSans.ttf"),
+     };
+     for (const QString &fontFileName : fontFileNames) {
+         QFile theFont(fontFileName);
+@@ -326,7 +326,7 @@ QStringList QWasmFontDatabase::fallbacksForFamily(const QString &family, QFont::
+ 
+     // Add the DejaVuSans.ttf font (loaded in populateFontDatabase above) as a falback font
+     // to all other fonts (except itself).
+-    static const QString wasmFallbackFonts[] = { "DejaVu Sans" };
++    static const QString wasmFallbackFonts[] = { /*"DejaVu Sans"*/ };
+     for (auto wasmFallbackFont : wasmFallbackFonts) {
+         if (family != wasmFallbackFont && !fallbacks.contains(wasmFallbackFont))
+             fallbacks.append(wasmFallbackFont);

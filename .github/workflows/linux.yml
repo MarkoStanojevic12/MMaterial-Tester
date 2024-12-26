@@ -48,21 +48,22 @@ jobs:
         sudo apt-get install -y build-essential ninja-build lld clang-15 libgl1-mesa-dev libxcb-cursor-dev xorg-dev libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev xvfb libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0
 
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         aqtversion: '==3.1.*'
-        version: '6.8.0'
+        version: '6.8.1'
         host: 'linux'
         target: 'desktop'
         arch: 'linux_gcc_64'
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'
-
+        cache: true
+        
     - name: Configure
       env:
         CC: ${{ matrix.CC }}
         CXX: ${{ matrix.CXX }}
-        CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}/lib/cmake
+        CMAKE_PREFIX_PATH: ${{env.QT_ROOT_DIR}}/lib/cmake
       run: >
         cmake -G Ninja 
         -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} 
@@ -93,10 +94,11 @@ jobs:
 #         LD_PRELOAD: ./libdlclose.so
 #         LSAN_OPTIONS: suppressions=./sanitizer_supressions/linux_leak.supp
 #         ASAN_OPTIONS: verify_asan_link_order=0
+#         # QSG_RENDER_LOOP: basic
 #       run: |
 #         ./build/alp_external/radix/unittests/unittests_radix
 #         ./build/unittests/nucleus/unittests_nucleus
 #         Xvfb :1 -screen 0 1024x768x16 &
 #         sleep 5
 #         ./build/unittests/gl_engine/unittests_gl_engine
-#         ./build/app/alpineapp
+#         # ./build/app/alpineapp # rendering is not starting, and now it crashes on shutdown (qthread destroyed while running). likely due to the fake opengl/offscreen rendering

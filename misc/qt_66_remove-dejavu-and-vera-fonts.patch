@@ -1,0 +1,61 @@
+From 2e5f33c6be2afeb5218e37593f043e0e147cd96b Mon Sep 17 00:00:00 2001
+Message-ID: <2e5f33c6be2afeb5218e37593f043e0e147cd96b.1727708577.git.5292991+adam-ce@users.noreply.github.com>
+From: Adam Celarek <5292991+adam-ce@users.noreply.github.com>
+Date: Mon, 12 Feb 2024 18:54:38 +0100
+Subject: [PATCH] remove dejavu and vera fonts
+
+---
+ qtbase/src/plugins/platforms/wasm/CMakeLists.txt       | 10 +++++-----
+ .../src/plugins/platforms/wasm/qwasmfontdatabase.cpp   |  8 ++++----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/qtbase/src/plugins/platforms/wasm/CMakeLists.txt b/qtbase/src/plugins/platforms/wasm/CMakeLists.txt
+index d7c96afdaa..e4190c36d4 100644
+--- a/qtbase/src/plugins/platforms/wasm/CMakeLists.txt
++++ b/qtbase/src/plugins/platforms/wasm/CMakeLists.txt
+@@ -46,11 +46,11 @@ qt_internal_add_plugin(QWasmIntegrationPlugin
+ )
+ 
+ # Resources:
+-set(wasmfonts_resource_files
+-    "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/Vera.ttf"
+-    "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSans.ttf"
+-    "${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSansMono.ttf"
+-)
++#set(wasmfonts_resource_files
++    #"${QtBase_SOURCE_DIR}/src/3rdparty/wasm/Vera.ttf"
++    #"${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSans.ttf"
++    #"${QtBase_SOURCE_DIR}/src/3rdparty/wasm/DejaVuSansMono.ttf"
++#)
+ 
+ qt_internal_add_resource(QWasmIntegrationPlugin "wasmfonts"
+     PREFIX
+diff --git a/qtbase/src/plugins/platforms/wasm/qwasmfontdatabase.cpp b/qtbase/src/plugins/platforms/wasm/qwasmfontdatabase.cpp
+index c0833a65ca..b1db3938e2 100644
+--- a/qtbase/src/plugins/platforms/wasm/qwasmfontdatabase.cpp
++++ b/qtbase/src/plugins/platforms/wasm/qwasmfontdatabase.cpp
+@@ -151,9 +151,9 @@ void QWasmFontDatabase::populateFontDatabase()
+     // as Qt resources.
+ 
+     const QString fontFileNames[] = {
+-        QStringLiteral(":/fonts/DejaVuSansMono.ttf"),
+-        QStringLiteral(":/fonts/Vera.ttf"),
+-        QStringLiteral(":/fonts/DejaVuSans.ttf"),
++        //QStringLiteral(":/fonts/DejaVuSansMono.ttf"),
++        //QStringLiteral(":/fonts/Vera.ttf"),
++        //QStringLiteral(":/fonts/DejaVuSans.ttf"),
+     };
+     for (const QString &fontFileName : fontFileNames) {
+         QFile theFont(fontFileName);
+@@ -180,7 +180,7 @@ QStringList QWasmFontDatabase::fallbacksForFamily(const QString &family, QFont::
+ 
+     // Add the vera.ttf and DejaVuSans.ttf fonts (loaded in populateFontDatabase above) as falback fonts
+     // to all other fonts (except itself).
+-    static const QString wasmFallbackFonts[] = { "Bitstream Vera Sans", "DejaVu Sans" };
++    static const QString wasmFallbackFonts[] = { /*"Bitstream Vera Sans", "DejaVu Sans"*/ };
+     for (auto wasmFallbackFont : wasmFallbackFonts) {
+         if (family != wasmFallbackFont && !fallbacks.contains(wasmFallbackFont))
+             fallbacks.append(wasmFallbackFont);
+-- 
+2.43.0
+
