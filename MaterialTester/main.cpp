@@ -2,9 +2,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QString>
 
 #include "DevTools/Clipboard.h"
 #include "DevTools/CustomEngine.h"
+
+using namespace Qt::Literals::StringLiterals;
 
 int main(int argc, char *argv[])
 {
@@ -38,7 +41,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("Clipboard", &clipboard);
 
 #if defined(__wasm__) || !defined(QT_DEBUG)
-    const QUrl url(u"qrc:/MaterialTester/Main.qml"_qs);
+    const QUrl url(u"qrc:/MaterialTester/Main.qml"_s);
 #else
 	const QUrl url(qgetenv("MAIN_DIR") + "/Main.qml");
 #endif
