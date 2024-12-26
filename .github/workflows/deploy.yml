@@ -235,7 +235,7 @@ jobs:
       shell: bash
       run: |
         git clone --branch v${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
-        $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats,qtsvg
+        $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats
         cd qt_src/qtbase
         git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
         
@@ -246,7 +246,7 @@ jobs:
         dest_dir="${{env.QT_WASM_ROOT_DIR}}"
         mkdir qt_wasm_build
         cd qt_wasm_build
-        ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -release -optimize-size -platform wasm-emscripten -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats,qtsvg -make libs -gui  ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
+        ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -release -optimize-size -platform wasm-emscripten -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui  ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
         # cat ./build.ninja
         sed -i 's/-flto=thin/-flto/g' ./build.ninja
         # echo "=============================================================================================================================================="
