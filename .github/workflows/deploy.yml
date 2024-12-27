@@ -165,16 +165,19 @@ jobs:
           - config: wasm_light_lto
             qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
+            compile_env: "CXX_FLAGS='-flto'\nLDFLAGS='-flto'"
             qtversion: '6.8.1'
             webassembly_version: "3.1.56"
           - config: wasm_light_st
             qtflags: '-$(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
+            compile_env: ''
             qtversion: '6.8.1'
             webassembly_version: "3.1.56"
           - config: wasm_debug
             qtflags: '-no-feature-thread'
             cmakeflags: ''
+            compile_env: ''
             qtversion: '6.8.1'
             webassembly_version: "3.1.56"
           # - config: wasm_mt_lto
@@ -214,11 +217,12 @@ jobs:
     - name: Set reusable strings
       shell: bash
       run: |
-        echo "BUILD_DIR="$(pwd)/build"" >> $GITHUB_ENV
+        echo "BUILD_DIR=$(pwd)/build" >> $GITHUB_ENV
         echo "INSTALL_DIR=install/${{ matrix.config}}" >> $GITHUB_ENV
         echo "QT_WASM_ROOT_DIR=$(pwd)/qt_wasm_lite" >> $GITHUB_ENV
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
+        echo -e "${{matrix.compile_env}}" >> $GITHUB_ENV
       
     - name: Verify emcc
       run: emcc -v
@@ -250,7 +254,7 @@ jobs:
         # cat ./build.ninja
         sed -i 's/-flto=thin/-flto/g' ./build.ninja
         # echo "=============================================================================================================================================="
-        # cat ./build.ninja
+        cat ./build.ninja
         cmake --build . --parallel && cmake --install .
         # Fail if the directory is not created or is empty
         [ -d "$QT_WASM_ROOT_DIR" ] && [ "$(ls -A $QT_WASM_ROOT_DIR)" ] || exit 1
@@ -264,10 +268,8 @@ jobs:
         -B $BUILD_DIR
         -DCMAKE_BUILD_TYPE=MinSizeRel
         -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
-        -DALP_ENABLE_LTO=ON
-        -DFMT_INSTALL=OFF
         ${{ matrix.cmakeflags }}
-        -S ${{ github.workspace }}/MaterialTester
+        -S ${{ github.workspace }}/MaterialTester && cat $BUILD_DIR/build.ninja
 
     - name: Build
       run: cmake --build $BUILD_DIR --target install
