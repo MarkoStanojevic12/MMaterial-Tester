@@ -160,7 +160,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [wasm_light_lto, wasm_light_st, wasm_debug]
+        config: [wasm_light_lto, wasm_light_st]
         include:
           - config: wasm_light_lto
             qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
