@@ -163,19 +163,25 @@ jobs:
         config: [wasm_light_lto, wasm_light_st, wasm_debug]
         include:
           - config: wasm_light_lto
-            qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
+            qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: "CXX_FLAGS='-flto'\nLDFLAGS='-flto'"
             qtversion: '6.8.1'
             webassembly_version: "3.1.56"
           - config: wasm_light_st
-            qtflags: '-$(cat $QT_LITE_CONFIG) -no-feature-thread'
+            qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
             qtversion: '6.8.1'
             webassembly_version: "3.1.56"
-          - config: wasm_debug
-            qtflags: '-no-feature-thread'
+          - config: wasm_medium
+            qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+            qtversion: '6.8.1'
+            webassembly_version: "3.1.56"
+          - config: wasm_full
+            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
             qtversion: '6.8.1'
@@ -227,15 +233,15 @@ jobs:
     - name: Verify emcc
       run: emcc -v
         
-    - name: Cache Qt WebAssembly build
-      id: qt-cache
-      uses: actions/cache@v4
-      with:
-        path: qt_wasm_lite
-        key: ${{ matrix.config }}_qt-${{ matrix.qtversion }}_emcc-${{ matrix.webassembly_version }}
+    #- name: Cache Qt WebAssembly build
+      #id: qt-cache
+      #uses: actions/cache@v4
+      #with:
+        #path: qt_wasm_lite
+        #key: ${{ matrix.config }}_qt-${{ matrix.qtversion }}_emcc-${{ matrix.webassembly_version }}
         
     - name: Download and patch Qt
-      if: steps.qt-cache.outputs.cache-hit != 'true'
+      #if: steps.qt-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         git clone --branch v${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
@@ -244,13 +250,13 @@ jobs:
         git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
         
     - name: Build Qt for Webassembly (custom version)
-      if: steps.qt-cache.outputs.cache-hit != 'true'
+      #if: steps.qt-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         dest_dir="${{env.QT_WASM_ROOT_DIR}}"
         mkdir qt_wasm_build
         cd qt_wasm_build
-        ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -release -optimize-size -platform wasm-emscripten -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui  ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
+        ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten -release -optimize-size ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
         # cat ./build.ninja
         sed -i 's/-flto=thin/-flto/g' ./build.ninja
         # echo "=============================================================================================================================================="
