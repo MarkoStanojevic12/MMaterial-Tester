@@ -163,65 +163,29 @@ jobs:
         config: [wasm_light_lto, wasm_light_st]
         include:
           - config: wasm_light_lto
-            qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: "CXX_FLAGS='-flto'\nLDFLAGS='-flto'"
-            qtversion: '6.9'
-            webassembly_version: "3.1.74"
-          - config: wasm_light_st
-            qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat $QT_LITE_CONFIG) -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.74"
-          - config: wasm_medium
-            qtflags: '-submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.9'
+            qtversion: 'v6.8.1'
             webassembly_version: "3.1.56"
-          - config: wasm_67
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
+          - config: wasm_light_st
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.67"
-          - config: wasm_68
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
+            qtversion: 'v6.8.1'
+            webassembly_version: "3.1.56"
+          - config: wasm_medium
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.68"
-          - config: wasm_69
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
+            qtversion: 'v6.8.1'
+            webassembly_version: "3.1.56"
+          - config: wasm_full
+            qtflags: '-release -submodules qtdeclarative,qtbase -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.69"
-          - config: wasm_70
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.70"
-          - config: wasm_71
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.71"
-          - config: wasm_72
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.72"
-          - config: wasm_73
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.9'
-            webassembly_version: "3.1.73"
+            qtversion: 'v6.8.1'
+            webassembly_version: "3.1.56"
           # - config: wasm_mt_lto
           #   qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -feature-thread'
           #   cmakeflags: '-DALP_ENABLE_THREADING=ON -DALP_ENABLE_ASSERTS=OFF'
@@ -292,7 +256,7 @@ jobs:
         dest_dir="${{env.QT_WASM_ROOT_DIR}}"
         mkdir qt_wasm_build
         cd qt_wasm_build
-        ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten -release -optimize-size ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
+        ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
         # cat ./build.ninja
         sed -i 's/-flto=thin/-flto/g' ./build.ninja
         # echo "=============================================================================================================================================="
