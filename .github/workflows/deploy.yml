@@ -180,12 +180,6 @@ jobs:
             compile_env: ''
             qtversion: '6.9'
             webassembly_version: "3.1.56"
-          - config: wasm_full
-            qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            qtversion: '6.8'
-            webassembly_version: "3.1.56"
           - config: wasm_67
             qtflags: '-submodules qtdeclarative,qtbase -make libs -gui -no-feature-thread'
             cmakeflags: ''
