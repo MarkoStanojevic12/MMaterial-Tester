@@ -259,9 +259,9 @@ jobs:
         cd qt_wasm_build
         ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
         # cat ./build.ninja
-        sed -i 's/-flto=thin/-flto/g' ./build.ninja
+        #sed -i 's/-flto=thin/-flto/g' ./build.ninja
         # echo "=============================================================================================================================================="
-        cat ./build.ninja
+        #cat ./build.ninja
         cmake --build . --parallel && cmake --install .
         # Fail if the directory is not created or is empty
         [ -d "$QT_WASM_ROOT_DIR" ] && [ "$(ls -A $QT_WASM_ROOT_DIR)" ] || exit 1
