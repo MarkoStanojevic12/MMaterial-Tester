@@ -218,7 +218,8 @@ jobs:
         dir: '${{github.workspace}}/qt_host'
         install-deps: 'true'
         modules: 'qtshadertools'
-        cache: true
+        cache: false
+        tools: 'tools_cmake'
         
     - name: Set reusable strings
       shell: bash
@@ -229,9 +230,12 @@ jobs:
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
         echo -e "${{matrix.compile_env}}" >> $GITHUB_ENV
+        cd ${{github.workspace}}/qt_host && ls
       
-    - name: Verify emcc
-      run: emcc -v
+    - name: Versions
+      run: |
+        emcc -v
+        cmake --version
         
     #- name: Cache Qt WebAssembly build
       #id: qt-cache
@@ -245,10 +249,12 @@ jobs:
       shell: bash
       run: |
         git clone --branch ${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
+        cd qt_src
         $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase
         #-skip qtlanguageserver,qtquicktimeline,qtimageformats
         #cd qt_src/qtbase
         #git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
+        cd ${{ github.workspace }} && ls -l
         
     - name: Build Qt for Webassembly (custom version)
       #if: steps.qt-cache.outputs.cache-hit != 'true'
