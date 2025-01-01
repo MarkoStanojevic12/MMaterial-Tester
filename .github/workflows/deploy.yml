@@ -198,9 +198,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential ninja-build
         
-    - name: Disable git clone progress bar
-      run: git config --global alias.clone 'clone --quiet'
-        
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
