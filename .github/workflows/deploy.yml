@@ -229,13 +229,17 @@ jobs:
         echo "QT_WASM_ROOT_DIR=$(pwd)/qt_wasm_lite" >> $GITHUB_ENV
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
+        echo "QT_CMAKE=${{github.workspace}}/qt_host/Qt/Tools/CMake/bin/cmake" >> $GITHUB_ENV
         echo -e "${{matrix.compile_env}}" >> $GITHUB_ENV
-        cd ${{github.workspace}}/qt_host && ls
+        cd ${{github.workspace}}/qt_host/Qt/ && ls
       
     - name: Versions
       run: |
         emcc -v
+        echo "cmake version:"
         cmake --version
+        echo "${{env.QT_CMAKE}} version"
+        ${{env.QT_CMAKE}} --version
         
     #- name: Cache Qt WebAssembly build
       #id: qt-cache
@@ -249,7 +253,7 @@ jobs:
       shell: bash
       run: |
         git clone --branch ${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
-        cd qt_src
+        #cd qt_src
         $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase
         #-skip qtlanguageserver,qtquicktimeline,qtimageformats
         #cd qt_src/qtbase
