@@ -256,8 +256,8 @@ jobs:
         mkdir qt_wasm_build
         cd qt_wasm_build
         $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats
-        #cd ../qt_src/qtbase
-        #git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
+        cd ${{github.workspace}}/qt_src/qtbase
+        git apply ${{github.workspace}}/misc/qt_68_qtbase_remove_dejavu_fonts.patch
         cd ${{ github.workspace }} && ls -l
         
     - name: Build Qt for Webassembly (custom version)
@@ -268,7 +268,8 @@ jobs:
         cd qt_wasm_build
         ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
         # cat ./build.ninja
-        #sed -i 's/-flto=thin/-flto/g' ./build.ninja
+        # fix broken lto=thin build (https://bugreports.qt.io/browse/QTBUG-129522)
+        sed -i 's/-flto=thin/-flto/g' ./build.ninja
         # echo "=============================================================================================================================================="
         #cat ./build.ninja
         cmake --build . --parallel && cmake --install .
