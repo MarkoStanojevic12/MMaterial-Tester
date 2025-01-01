@@ -245,9 +245,10 @@ jobs:
       shell: bash
       run: |
         git clone --branch ${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
-        $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats
-        cd qt_src/qtbase
-        git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
+        #$QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase
+        #-skip qtlanguageserver,qtquicktimeline,qtimageformats
+        #cd qt_src/qtbase
+        #git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
         
     - name: Build Qt for Webassembly (custom version)
       #if: steps.qt-cache.outputs.cache-hit != 'true'
