@@ -219,7 +219,7 @@ jobs:
         install-deps: 'true'
         modules: 'qtshadertools'
         cache: false
-        tools: 'tools_cmake'
+        #tools: 'tools_cmake'
         
     - name: Set reusable strings
       shell: bash
@@ -253,10 +253,10 @@ jobs:
       shell: bash
       run: |
         git clone --branch ${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
-        #cd qt_src
-        $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase
-        #-skip qtlanguageserver,qtquicktimeline,qtimageformats
-        #cd qt_src/qtbase
+        mkdir qt_wasm_build
+        cd qt_wasm_build
+        $QT_SRC_CONFIGURE -init-submodules -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats
+        #cd ../qt_src/qtbase
         #git apply ../../misc/qt_68_qtbase_remove_dejavu_fonts.patch
         cd ${{ github.workspace }} && ls -l
         
@@ -265,7 +265,6 @@ jobs:
       shell: bash
       run: |
         dest_dir="${{env.QT_WASM_ROOT_DIR}}"
-        mkdir qt_wasm_build
         cd qt_wasm_build
         ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
         # cat ./build.ninja
