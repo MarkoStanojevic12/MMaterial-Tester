@@ -18,19 +18,13 @@ concurrency:
 jobs:
   build-android:
     runs-on: ubuntu-24.04
+    env:
+      QT_VERSION: '6.8.1'
+      QT_MODULES: 'qtcharts qtpositioning'
     strategy:
       fail-fast: false
       matrix:
         qtarch: [android_arm64_v8a, android_armv7]
-        include:
-          - qtarch: android_arm64_v8a
-            qttarget: 'android'
-            qtversion: '6.8.1'
-            qtmodules: 'qtcharts qtpositioning'
-          - qtarch: android_armv7
-            qttarget: 'android'
-            qtversion: '6.8.1'
-            qtmodules: 'qtcharts qtpositioning'
           
     steps:
     - name: Install dependencies
@@ -49,7 +43,7 @@ jobs:
       uses: jurplel/install-qt-action@v4
       with:
         aqtversion: '==3.1.*'
-        version: ${{ matrix.qtversion }}
+        version: ${{ env.QT_VERSION }}
         host: 'linux'
         target: 'desktop'
         arch: 'linux_gcc_64'
@@ -64,13 +58,13 @@ jobs:
       uses: jurplel/install-qt-action@v4
       with:
         aqtversion: '==3.1.*'
-        version: ${{ matrix.qtversion }}
+        version: ${{ env.QT_VERSION }}
         host: linux
-        target: ${{ matrix.qttarget }}
+        target: android
         arch: ${{ matrix.qtarch }}
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'
-        modules: ${{ matrix.qtmodules }}
+        modules: ${{ env.QT_MODULES }}
         cache: true
 
     - name: Make qt cross binaries executable
@@ -101,16 +95,15 @@ jobs:
         -B $BUILD_DIR
         -DQT_HOST_PATH=${QT_HOST_ROOT_DIR}
         -DCMAKE_BUILD_TYPE=Release
-        ${{ matrix.additional_cmake_flags }}
         -S ${{ github.workspace }}/MaterialTester
 
     - name: Build
-      run: cmake --build $BUILD_DIR ${{ matrix.additional_build_flags }}
+      run: cmake --build $BUILD_DIR
 
     - name: Signing Android package with common key
       env: 
         secret_test: ${{ secrets.KEYSTOREPASSWORD }}
-      if: matrix.qttarget == 'android' && env.secret_test != ''
+      if: env.secret_test != ''
       run: |
         echo ${{ secrets.SIGNINGKEYBASE64 }} > release.keystore.base64
         base64 -d release.keystore.base64 > release.keystore
@@ -119,7 +112,7 @@ jobs:
     - name: Signing Android packages with generated key
       env: 
         secret_test: ${{ secrets.KEYSTOREPASSWORD }}
-      if: matrix.qttarget == 'android' && env.secret_test == ''
+      if: env.secret_test == ''
       run: |
         keytool -genkey -v -keystore release.keystore -alias alpinemaps -keyalg RSA -sigalg SHA1withRSA -keysize 2048 -validity 10000 -keypass asdfasdf -storepass asdfasdf -dname "CN=Franz, OU=IT, O=Furz, L=Rattenberg, ST=Tirol, C=AT"
         $QT_HOST_ROOT_DIR/bin/androiddeployqt --input $DEPLOYMENT_SETTINGS --output $ANDROID_BUILD_DIR --android-platform android-35 --gradle --release --sign release.keystore alpinemaps --storepass asdfasdf
@@ -142,7 +135,6 @@ jobs:
         echo "Oh, and I hope this saved your day :)" >> $README_PATH
       
     - name: Copy android packages
-      if: matrix.qttarget == 'android'
       run: |
         mkdir -p $INSTALL_DIR
         cp -r $APK_DIR/* $INSTALL_DIR
@@ -157,6 +149,9 @@ jobs:
         
   build-wasm:
     runs-on: ubuntu-24.04
+    env:
+      QT_VERSION: '6.8.1'
+      WEBASSEMBLY_VERSION: '3.1.56'
     strategy:
       fail-fast: false
       matrix:
@@ -166,31 +161,18 @@ jobs:
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: "CXX_FLAGS='-flto'\nLDFLAGS='-flto'"
-            qtversion: '6.8.1'
-            webassembly_version: "3.1.56"
           - config: wasm_light_st
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
-            qtversion: '6.8.1'
-            webassembly_version: "3.1.56"
           - config: wasm_medium
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
-            qtversion: '6.8.1'
-            webassembly_version: "3.1.56"
           - config: wasm_full
             qtflags: '-release -submodules qtdeclarative,qtbase -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
-            qtversion: '6.8.1'
-            webassembly_version: "3.1.56"
-          # - config: wasm_mt_lto
-          #   qtflags: '-ltcg $(cat $QT_LITE_CONFIG) -feature-thread'
-          #   cmakeflags: '-DALP_ENABLE_THREADING=ON -DALP_ENABLE_ASSERTS=OFF'
-          #   qtversion: '6.8.1'
-          #   webassembly_version: "3.1.56"
             
     steps:
     - name: Install dependencies
@@ -205,20 +187,20 @@ jobs:
     
     - uses: mymindstorm/setup-emsdk@v13
       with:
-        version: ${{matrix.webassembly_version}}
+        version: ${{ env.WEBASSEMBLY_VERSION }}
         
     - name: Install Qt native version (required for cross building)
       uses: jurplel/install-qt-action@v4
       with:
         aqtversion: '==3.1.*'
-        version: ${{matrix.qtversion}}
+        version: ${{ env.QT_VERSION }}
         host: linux
         target: 'desktop'
         arch: linux_gcc_64
         dir: '${{github.workspace}}/qt_host'
         install-deps: 'true'
         modules: 'qtshadertools'
-        cache: false
+        cache: true
         tools: 'tools_cmake'
         
     - name: Set reusable strings
@@ -229,36 +211,26 @@ jobs:
         echo "QT_WASM_ROOT_DIR=$(pwd)/qt_wasm_lite" >> $GITHUB_ENV
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
-        #echo "QT_CMAKE=${{github.workspace}}/qt_host/Qt/Tools/CMake/bin/cmake" >> $GITHUB_ENV
         echo -e "${{matrix.compile_env}}" >> $GITHUB_ENV
-        cd ${{github.workspace}}/qt_host/Qt/ && ls
-      
-    - name: Versions
-      run: |
-        emcc -v
-        echo "cmake version:"
-        cmake --version
-        #echo "${{env.QT_CMAKE}} version"
-        #${{env.QT_CMAKE}} --version
         
-    #- name: Cache Qt WebAssembly build
-      #id: qt-cache
-      #uses: actions/cache@v4
-      #with:
-        #path: qt_wasm_lite
-        #key: ${{ matrix.config }}_qt-${{ matrix.qtversion }}_emcc-${{ matrix.webassembly_version }}
+    # - name: Cache Qt WebAssembly build
+    #   id: qt-cache
+    #   uses: actions/cache@v4
+    #   with:
+    #     path: qt_wasm_lite
+    #     key: ${{ matrix.config }}_qt-${{ env.QT_VERSION }}_emcc-${{ env.WEBASSEMBLY_VERSION }}
         
     - name: Download and patch Qt
       #if: steps.qt-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        git clone --branch ${{matrix.qtversion}} git://code.qt.io/qt/qt5.git qt_src
+        git clone --branch $QT_VERSION git://code.qt.io/qt/qt5.git qt_src
         mkdir qt_wasm_build
         cd qt_wasm_build
         $QT_SRC_CONFIGURE -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten -init-submodules -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats
         cd ${{github.workspace}}/qt_src/qtbase
         git apply ${{github.workspace}}/misc/qt_68_qtbase_remove_dejavu_fonts.patch
-        cd ${{ github.workspace }} && ls -l
+        
         
     - name: Build Qt for Webassembly (custom version)
       #if: steps.qt-cache.outputs.cache-hit != 'true'
@@ -266,14 +238,19 @@ jobs:
       run: |
         cd qt_wasm_build
         ${{env.QT_SRC_CONFIGURE}} -qt-host-path $QT_ROOT_DIR -platform wasm-emscripten ${{ matrix.qtflags }} -prefix "${QT_WASM_ROOT_DIR}/" 
-        # cat ./build.ninja
         # fix broken lto=thin build (https://bugreports.qt.io/browse/QTBUG-129522)
         sed -i 's/-flto=thin/-flto/g' ./build.ninja
-        # echo "=============================================================================================================================================="
-        #cat ./build.ninja
         cmake --build . --parallel && cmake --install .
         # Fail if the directory is not created or is empty
         [ -d "$QT_WASM_ROOT_DIR" ] && [ "$(ls -A $QT_WASM_ROOT_DIR)" ] || exit 1
+      
+    - name: Debug output
+      run: |
+        emcc -v
+        echo "cmake version:"
+        cmake --version
+        cd ${{ github.workspace }} && ls -l
+        cat ./qt_wasm_build/build.ninja
       
     - name: Configure
       env:
