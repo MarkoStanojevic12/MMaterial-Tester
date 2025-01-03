@@ -68,7 +68,7 @@
 -no-feature-schannel
 -no-feature-wasm-exceptions 
 -feature-jpeg
--no-feature-quicktemplates2-calendar
+-feature-quicktemplates2-calendar
 -feature-wasm-simd128
 -feature-opengles3
 -feature-quick-canvas
