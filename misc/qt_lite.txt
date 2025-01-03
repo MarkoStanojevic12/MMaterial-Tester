@@ -66,7 +66,7 @@
 -feature-itemmodeltester
 -feature-opensslv30
 -feature-schannel
--feature-wasm-exceptions
+-no-feature-wasm-exceptions
 -feature-jpeg
 -feature-quicktemplates2-calendar
 -feature-wasm-simd128
