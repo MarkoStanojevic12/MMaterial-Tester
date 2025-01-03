@@ -42,14 +42,12 @@
 -no-feature-mimetype
 -no-feature-datetimeparser
 -no-feature-qml-debug
--feature-quicktemplates2-calendar
 -no-feature-quicktemplates2-hover
 -no-feature-quicktemplates2-multitouch
 -no-feature-imageformat_bmp
 -no-feature-imageformat_ppm
 -no-feature-imageformat_xbm
 -no-feature-sql-sqlite
--feature-jpeg
 -no-feature-tiff
 -no-feature-ico
 -no-feature-gif
@@ -59,7 +57,6 @@
 -no-feature-dom
 -no-feature-webp
 -no-feature-dbus
--no-feature-quickcontrols2-fluentwinui3
 -no-feature-stack_protector
 -no-feature-stack_clash_protection
 -no-feature-libstdcpp_assertions
@@ -70,6 +67,8 @@
 -no-feature-opensslv30
 -no-feature-schannel
 -no-feature-wasm-exceptions 
+-feature-jpeg
+-no-feature-quicktemplates2-calendar
 -feature-wasm-simd128
 -feature-opengles3
 -feature-quick-canvas
