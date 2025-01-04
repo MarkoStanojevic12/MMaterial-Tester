@@ -1,7 +1,4 @@
--static -reduce-exports -gc-binaries 
--disable-deprecated-up-to 0x070000
 -no-dbus
--no-sql-sqlite
 -no-widgets
 -no-feature-cssparser
 -no-feature-quick-treeview

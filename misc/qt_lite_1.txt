@@ -1,4 +1,4 @@
--static -reduce-exports -gc-binaries 
+-static -reduce-exports -gc-binaries
 -disable-deprecated-up-to 0x070000
 -no-dbus
 -no-sql-sqlite
