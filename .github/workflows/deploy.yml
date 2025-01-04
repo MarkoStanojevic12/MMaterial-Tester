@@ -174,35 +174,35 @@ jobs:
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st1
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}1.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}1.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st2
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}2.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}2.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st3
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}3.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}3.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st4
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}4.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}4.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st5
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}5.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}5.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st6
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}6.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}6.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st7
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}7.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}7.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
           - config: wasm_light_st8
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}8.txt) -no-feature-thread'
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg -$(cat ${QT_LITE_CONFIG_NUM}8.txt) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
             
