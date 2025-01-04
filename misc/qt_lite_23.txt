@@ -25,7 +25,7 @@
 -no-feature-quick-designer
 -no-feature-quick-particles
 -no-feature-quick-sprite
--feature-raster-64bit
+-no-feature-raster-64bit
 -no-feature-raster-fp
 -no-feature-androiddeployqt
 -no-feature-macdeployqt
