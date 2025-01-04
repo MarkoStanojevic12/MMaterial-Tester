@@ -165,6 +165,262 @@ jobs:
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
             compile_env: ''
+          - config: wasm_light_st1
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}1.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st2
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}2.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st3
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}3.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st4
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}4.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st5
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}5.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st6
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}6.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st7
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}7.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st8
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}8.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st9
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}9.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st10
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}10.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st11
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}11.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st12
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}12.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st13
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}13.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st14
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}14.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st15
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}15.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st16
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}16.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st17
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}17.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st18
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}18.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st19
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}19.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st20
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}20.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st21
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}21.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st22
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}22.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st23
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}23.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st24
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}24.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st25
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}25.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st26
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}26.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st27
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}27.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st28
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}28.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st29
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}29.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st30
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}30.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st31
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}31.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st32
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}32.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st33
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}33.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st34
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}34.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st35
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}35.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st36
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}36.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st37
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}37.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st38
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}38.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st39
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}39.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st40
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}40.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st41
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}41.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st42
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}42.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st43
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}43.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st44
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}44.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st45
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}45.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st46
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}46.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st47
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}47.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st48
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}48.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st49
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}49.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st50
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}50.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st51
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}51.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st52
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}52.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st53
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}53.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st54
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}54.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st55
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}55.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st56
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}56.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st57
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}57.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st58
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}58.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st59
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}59.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st60
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}60.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st61
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}61.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st62
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}62.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st63
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}63.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
+          - config: wasm_light_st64
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -$(cat ${QT_LITE_CONFIG_NUM}64.txt) -no-feature-thread'
+            cmakeflags: ''
+            compile_env: ''
           - config: wasm_medium
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -no-feature-thread'
             cmakeflags: ''
@@ -211,6 +467,7 @@ jobs:
         echo "QT_WASM_ROOT_DIR=$(pwd)/qt_wasm_lite" >> $GITHUB_ENV
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
+        echo "QT_LITE_CONFIG_NUM=$(pwd)/misc/qt_lite_" >> $GITHUB_ENV
         echo -e "${{matrix.compile_env}}" >> $GITHUB_ENV
         
     # - name: Cache Qt WebAssembly build
