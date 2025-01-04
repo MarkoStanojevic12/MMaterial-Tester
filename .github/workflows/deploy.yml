@@ -76,7 +76,6 @@ jobs:
       run: |
         BUILD_DIR="${{ github.workspace }}/build"
         APK_TARGET="appMaterialTester"
-        APK_PROJECT_DIR="MaterialTester"
         echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
         echo "APK_TARGET=$APK_TARGET" >> $GITHUB_ENV
         
@@ -85,7 +84,6 @@ jobs:
         echo "ANDROID_BUILD_DIR=$BUILD_DIR/android-build/" >> $GITHUB_ENV
         echo "DEPLOYMENT_SETTINGS=$BUILD_DIR/android-$APK_TARGET-deployment-settings.json" >> $GITHUB_ENV
 
-      
     - name: Configure
       env:
         CMAKE_PREFIX_PATH: ${{env.QT_ROOT_DIR}}/lib/cmake
@@ -155,29 +153,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [wasm_light_lto, wasm_light_st]
+        config: [wasm, wasm_medium_qt, wasm_full_qt]
         include:
-          - config: wasm_light_lto
+          - config: wasm
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
-            compile_env: "CXX_FLAGS='-flto'\nLDFLAGS='-flto'"
-          - config: wasm_light_st
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui $(cat $QT_LITE_CONFIG) -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-          - config: wasm_medium
+          - config: wasm_medium_qt
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -no-feature-thread'
             cmakeflags: ''
-            compile_env: ''
-          - config: wasm_full
+          - config: wasm_full_qt
             qtflags: '-release -submodules qtdeclarative,qtbase -no-feature-thread'
             cmakeflags: ''
-            compile_env: ''
-          - config: wasm_light_st1
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui $(cat $QT_LITE_CONFIG) -no-feature-thread'
-            cmakeflags: ''
-            compile_env: ''
-            
+
     steps:
     - name: Install dependencies
       run: |
@@ -215,8 +202,6 @@ jobs:
         echo "QT_WASM_ROOT_DIR=$(pwd)/qt_wasm_lite" >> $GITHUB_ENV
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
-        echo "QT_LITE_CONFIG_NUM=$(pwd)/misc/qt_lite_" >> $GITHUB_ENV
-        echo -e "${{matrix.compile_env}}" >> $GITHUB_ENV
         
     # - name: Cache Qt WebAssembly build
     #   id: qt-cache
