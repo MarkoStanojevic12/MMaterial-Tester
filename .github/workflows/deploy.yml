@@ -98,6 +98,10 @@ jobs:
     - name: Build
       run: cmake --build $BUILD_DIR
 
+
+    - name: debug
+      run: find -iname "*deployment-settings.json"
+
     - name: Signing Android package with common key
       env: 
         secret_test: ${{ secrets.KEYSTOREPASSWORD }}
