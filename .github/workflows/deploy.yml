@@ -157,6 +157,9 @@ jobs:
       matrix:
         config: [wasm, wasm_medium_qt, wasm_full_qt]
         include:
+          - config: wasm_lto
+            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
+            cmakeflags: '-DMMATERIAL_ENABLE_LTO=ON'
           - config: wasm
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
