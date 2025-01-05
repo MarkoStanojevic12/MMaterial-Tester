@@ -208,15 +208,15 @@ jobs:
         echo "QT_SRC_CONFIGURE=$(pwd)/qt_src/configure" >> $GITHUB_ENV
         echo "QT_LITE_CONFIG=$(pwd)/misc/qt_lite.txt" >> $GITHUB_ENV
         
-    # - name: Cache Qt WebAssembly build
-    #   id: qt-cache
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: qt_wasm_lite
-    #     key: ${{ matrix.config }}_qt-${{ env.QT_VERSION }}_emcc-${{ env.WEBASSEMBLY_VERSION }}
+    - name: Cache Qt WebAssembly build
+      id: qt-cache
+      uses: actions/cache@v4
+      with:
+        path: qt_wasm_lite
+        key: ${{ matrix.config }}_qt-${{ env.QT_VERSION }}_emcc-${{ env.WEBASSEMBLY_VERSION }}
         
     - name: Download and patch Qt
-      #if: steps.qt-cache.outputs.cache-hit != 'true'
+      if: steps.qt-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         git clone --branch $QT_VERSION git://code.qt.io/qt/qt5.git qt_src
@@ -228,7 +228,7 @@ jobs:
         
         
     - name: Build Qt for Webassembly (custom version)
-      #if: steps.qt-cache.outputs.cache-hit != 'true'
+      if: steps.qt-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         cd qt_wasm_build
