@@ -151,15 +151,15 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       QT_VERSION: '6.8.1'
-      WEBASSEMBLY_VERSION: '3.1.74'
+      WEBASSEMBLY_VERSION: '3.1.56'
     strategy:
       fail-fast: false
       matrix:
         config: [wasm, wasm_medium_qt, wasm_full_qt]
         include:
-          - config: wasm_lto
-            qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
-            cmakeflags: '-DMMATERIAL_ENABLE_LTO=ON'
+          # - config: wasm_lto
+          #   qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui -ltcg $(cat $QT_LITE_CONFIG) -no-feature-thread'
+          #   cmakeflags: '-DMMATERIAL_ENABLE_LTO=ON'
           - config: wasm
             qtflags: '-release -optimize-size -submodules qtdeclarative,qtbase -skip qtlanguageserver,qtquicktimeline,qtimageformats -make libs -gui $(cat $QT_LITE_CONFIG) -no-feature-thread'
             cmakeflags: ''
