@@ -240,6 +240,7 @@ jobs:
         [ -d "$QT_WASM_ROOT_DIR" ] && [ "$(ls -A $QT_WASM_ROOT_DIR)" ] || exit 1
       
     - name: Debug output
+      if: steps.qt-cache.outputs.cache-hit != 'true'
       run: |
         emcc -v
         echo "cmake version:"
