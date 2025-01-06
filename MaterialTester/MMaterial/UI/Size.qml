@@ -41,16 +41,16 @@ Item {
 
     enum Format { Extended, Compact, Mobile }
 
-    property int format: UI.Size.Format.Extended
+    property int format: Size.Format.Extended
 
     function autoSetFormat(windowWidth : real, windowHeight : real) : void {
         if (windowWidth < 500 || Qt.platform.os === "android" || Qt.platform.os === "ios") {
-            root.format = UI.Size.Format.Mobile
+            root.format = Size.Format.Mobile
         }
         else if (windowWidth > windowHeight) {
-            root.format = UI.Size.Format.Extended
+            root.format = Size.Format.Extended
         } else {
-            root.format = UI.Size.Format.Compact
+            root.format = Size.Format.Compact
         }
     }
 
