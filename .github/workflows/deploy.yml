@@ -19,7 +19,7 @@ jobs:
   build-android:
     runs-on: ubuntu-24.04
     env:
-      QT_VERSION: '6.8.2'
+      QT_VERSION: '6.9.1'
       QT_MODULES: 'qtcharts qtpositioning'
     strategy:
       fail-fast: false
@@ -150,8 +150,8 @@ jobs:
   build-wasm:
     runs-on: ubuntu-24.04
     env:
-      QT_VERSION: '6.8.2'
-      WEBASSEMBLY_VERSION: '3.1.56'
+      QT_VERSION: '6.9.1'
+      WEBASSEMBLY_VERSION: '3.1.70'
     strategy:
       fail-fast: false
       matrix:
