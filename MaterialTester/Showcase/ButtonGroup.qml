@@ -69,6 +69,14 @@ ColumnLayout {
 
             onClicked: isLoading = !isLoading
         }
+
+        Controls.MButton {
+            type: groupRoot.buttonType
+            accent: UI.Theme.passive
+            text: "Passive"
+
+            onClicked: isLoading = !isLoading
+        }
     }
 
     TitleRow {
