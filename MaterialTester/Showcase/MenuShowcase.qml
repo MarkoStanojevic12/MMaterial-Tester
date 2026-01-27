@@ -48,7 +48,7 @@ Item {
 			iconData: Media.Icons.light.bluetooth
         }
 
-        MenuSeparator {}
+		Controls.MenuSeparator {}
 
 		Controls.MenuItem {
             text: "Menu Item Checked"
@@ -71,9 +71,9 @@ Item {
             enabled: false
         }
 
-        MenuSeparator {}
+		Controls.MenuSeparator {}
 
-        Menu {
+		Controls.Menu {
             title: "Nested menu"
 
 			Controls.MenuItem {
@@ -81,10 +81,10 @@ Item {
             }
         }
 
-        Menu {
+		Controls.Menu {
             title: "Double Nested menu"
 
-            Menu {
+			Controls.Menu {
                 title: "First Layer"
 
 				Controls.MenuItem {
