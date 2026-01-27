@@ -54,6 +54,8 @@ qt_add_qml_module(ShowcaseLib
         MultiStateButtonShowcase.qml
         ToggleButtonGroupShowcase.qml
         SpinBoxShowcase.qml
+        SegmentedFieldGroup.qml
+        SegmentedFieldShowcase.qml
 )
 
 set_target_properties(ShowcaseLib PROPERTIES AUTOMOC ON)

@@ -10,117 +10,118 @@ import MMaterial.Media as Media
 import MMaterial.UI as UI
 
 Rectangle {
-    id: _root
+	id: _root
 
-    function setSizeFormat() {
-        UI.Size.autoSetFormat(Window.width, Window.height)
-    }
+	function setSizeFormat() {
+		UI.Size.autoSetFormat(Window.width, Window.height)
+	}
 
-    color: UI.Theme.background.main
+	color: UI.Theme.background.main
 
-    onWidthChanged: sizeFormatTime.restart()
-    onHeightChanged: sizeFormatTime.restart()
+	onWidthChanged: sizeFormatTime.restart()
+	onHeightChanged: sizeFormatTime.restart()
 
-    Timer {
-        id: sizeFormatTime
-        interval: 150
-        onTriggered: _root.setSizeFormat()
-    }
+	Timer {
+		id: sizeFormatTime
+		interval: 150
+		onTriggered: _root.setSizeFormat()
+	}
 
-    RowLayout {
-        id: header
+	RowLayout {
+		id: header
 
-        anchors {
+		anchors {
 			top: parent.top
-            horizontalCenter: parent.horizontalCenter
-        }
+			horizontalCenter: parent.horizontalCenter
+		}
 
-        height: 56 * UI.Size.scale
-        width: parent.width * 0.95
+		height: 56 * UI.Size.scale
+		width: parent.width * 0.95
 
-        spacing: UI.Size.pixel14
+		spacing: UI.Size.pixel14
 
-        UI.H6 {
-            Layout.fillWidth: true
+		UI.H6 {
+			Layout.fillWidth: true
 
-            text: showcaseLoader.currentItem ? showcaseLoader.currentItem.objectName : ""
-            color: UI.Theme.main.p500
-            font.capitalization: Font.AllUppercase
-        }
+			text: showcaseLoader.currentItem ? showcaseLoader.currentItem.objectName : ""
+			color: UI.Theme.main.p500
+			font.capitalization: Font.AllUppercase
+		}
 
-        Media.Icon {
-            iconData: Media.Icons.light.settings
-            size: header.height / 2
-            interactive: true
+		Media.Icon {
+			iconData: Media.Icons.light.settings
+			size: header.height / 2
+			interactive: true
 			color: UI.Theme.text.secondary.toString()
 
-            onClicked: appSettings.toggle();
-        }
-    }
+			onClicked: appSettings.toggle();
+		}
+	}
 
-    MLoader {
-        id: showcaseLoader
-        objectName: "Main Loader"
+	MLoader {
+		id: showcaseLoader
+		objectName: "Main Loader"
 
-        asynchronous: true
+		asynchronous: true
 		sourceComponent: placeholder
-    }
+	}
 
-    Component { id: placeholder; Placeholder{ } }
-    Component { id: projectInfo; ProjectInfo{ } }
+	Component { id: placeholder; Placeholder{ } }
+	Component { id: projectInfo; ProjectInfo{ } }
 	Component { id: iconShowcase; IconShowcase{ } }
-    Component { id: fontShowcase; FontShowcase{ } }
-    Component { id: colorShowcase; ColorShowcase{ } }
-    Component { id: badgeShowcase; BadgeShowcase{ } }
-    Component { id: accordionShowcase; AccordionShowcase{ } }
-    Component { id: alertShowcase; AlertShowcase{ } }
-    Component { id: listItemShowcase; ListItemShowcase{ } }
-    Component { id: progressShowcase; ProgressShowcase{ } }
-    Component { id: textFieldShowcase; TextFieldShowcase{ } }
+	Component { id: fontShowcase; FontShowcase{ } }
+	Component { id: colorShowcase; ColorShowcase{ } }
+	Component { id: badgeShowcase; BadgeShowcase{ } }
+	Component { id: accordionShowcase; AccordionShowcase{ } }
+	Component { id: alertShowcase; AlertShowcase{ } }
+	Component { id: listItemShowcase; ListItemShowcase{ } }
+	Component { id: progressShowcase; ProgressShowcase{ } }
+	Component { id: textFieldShowcase; TextFieldShowcase{ } }
+	Component {id: segmentFieldShowcase; SegmentedFieldShowcase{ }}
 	Component { id: comboboxShowcase; ComboBoxShowcase{ } }
-    Component { id: sliderShowcase; SliderShowcase{ } }
-    Component { id: rectangleShowcase; RectangleShowcase{ } }
-    Component { id: menuShowcase; MenuShowcase{ } }
-    Component { id: avatarShowcase; AvatarShowcase{ } }
-    Component { id: dialogShowcase; DialogShowcase{ } }
-    Component { id: dateShowcase; DateShowcase{ } }
-    Component { id: timeShowcase; TimeShowcase{ } }
-    Component { id: colorPickerShowcase; ColorPickerShowcase{ } }
-    Component { id: busyIndicatorShowcase; BusyIndicatorShowcase{ } }
+	Component { id: sliderShowcase; SliderShowcase{ } }
+	Component { id: rectangleShowcase; RectangleShowcase{ } }
+	Component { id: menuShowcase; MenuShowcase{ } }
+	Component { id: avatarShowcase; AvatarShowcase{ } }
+	Component { id: dialogShowcase; DialogShowcase{ } }
+	Component { id: dateShowcase; DateShowcase{ } }
+	Component { id: timeShowcase; TimeShowcase{ } }
+	Component { id: colorPickerShowcase; ColorPickerShowcase{ } }
+	Component { id: busyIndicatorShowcase; BusyIndicatorShowcase{ } }
 
-    // Charts
-    Component { id: barChartShowcase; BarChartShowcase{ } }
-    Component { id: waterfallChartShowcase; WaterfallChartShowcase{ } }
+	// Charts
+	Component { id: barChartShowcase; BarChartShowcase{ } }
+	Component { id: waterfallChartShowcase; WaterfallChartShowcase{ } }
 
-    // Buttons
-    Component { id: buttonShowcase; ButtonShowcase{  } }
-    Component { id: toggleButtonShowcase; ToggleButtonShowcase{ } }
-    Component { id: fabButtonShowcase; FabButtonShowcase{ } }
-    Component { id: checkboxShowcase; CheckboxShowcase{ } }
-    Component { id: radioButtonShowcase; RadioButtonShowcase{ } }
-    Component { id: switchShowcase; SwitchShowcase{ } }
-    Component { id: tabShowcase; TabShowcase{ } }
+	// Buttons
+	Component { id: buttonShowcase; ButtonShowcase{  } }
+	Component { id: toggleButtonShowcase; ToggleButtonShowcase{ } }
+	Component { id: fabButtonShowcase; FabButtonShowcase{ } }
+	Component { id: checkboxShowcase; CheckboxShowcase{ } }
+	Component { id: radioButtonShowcase; RadioButtonShowcase{ } }
+	Component { id: switchShowcase; SwitchShowcase{ } }
+	Component { id: tabShowcase; TabShowcase{ } }
 	Component { id: multiStateButtonShowcase; MultiStateButtonShowcase{ } }
 	Component { id: toggleButtonGroupShowcase; ToggleButtonGroupShowcase{ } }
 	Component { id: spinBoxShowcase; SpinBoxShowcase{ } }
 
-    // Pagination
-    Component { id: paginationShowcase; PaginationShowcase{ } }
-    Component { id: paginationArrowsShowcase; PaginatorArrowsShowcase{ } }
-    Component { id: paginationBubbleShowcase; PaginatorBubbleShowcase{ } }
+	// Pagination
+	Component { id: paginationShowcase; PaginationShowcase{ } }
+	Component { id: paginationArrowsShowcase; PaginatorArrowsShowcase{ } }
+	Component { id: paginationBubbleShowcase; PaginatorBubbleShowcase{ } }
 	Component { id: paginationSimpleShowcase; PaginatorSimpleShowcase{ } }
 
 	// Network
 	Component { id: downloadShowcase; DownloadShowcase{ } }
 
-    AppSettings {
-        id: appSettings
-    }
+	AppSettings {
+		id: appSettings
+	}
 
 	Sidebar {
-        id: sidebar
+		id: sidebar
 
-        mainView: showcaseLoader
+		mainView: showcaseLoader
 		name: "John Doe"
 		role: "Admin"
 
@@ -182,6 +183,7 @@ Rectangle {
 				{text : "ListItems", onClicked: function(){ showcaseLoader.sourceComponent = listItemShowcase}},
 				{text : "Progress", onClicked: function(){ showcaseLoader.sourceComponent = progressShowcase}},
 				{text : "TextField", onClicked: function(){ showcaseLoader.sourceComponent = textFieldShowcase }},
+				{text : "SegmentedField", onClicked: function(){ showcaseLoader.sourceComponent = segmentFieldShowcase }},
 				{text : "ComboBox", onClicked: function(){ showcaseLoader.sourceComponent = comboboxShowcase }},
 				{text : "Slider", onClicked: function(){ showcaseLoader.sourceComponent = sliderShowcase }},
 				{text : "Menu", onClicked: function(){ showcaseLoader.sourceComponent = menuShowcase }},
@@ -229,13 +231,13 @@ Rectangle {
 				{text : "Download", onClicked: function(){ showcaseLoader.sourceComponent = downloadShowcase }, "chip" : Qt.platform.os === "wasm" ? { "text" : qsTr("Non-WASM"), "accent": UI.Theme.warning } : null}
 			];
 		}
-    }
+	}
 
 	AlertGenerator {
-        id: alertsController
+		id: alertsController
 
-        width: parent.width > 400 ? 400 * UI.Size.scale : parent.width * 0.9
-        edgeOf: Item.BottomRight
-    }
+		width: parent.width > 400 ? 400 * UI.Size.scale : parent.width * 0.9
+		edgeOf: Item.BottomRight
+	}
 }
 
