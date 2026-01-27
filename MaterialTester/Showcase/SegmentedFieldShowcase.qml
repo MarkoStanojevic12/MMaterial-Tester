@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
+
 import MMaterial.UI as UI
 import MMaterial.Controls as Controls
 import MMaterial.Controls.Inputs as Inputs
@@ -19,8 +19,8 @@ Item {
         clip: true
 
         model: [
-            { "category": "basic", "name": "Basic Examples" },
-            { "category": "interactive", "name": "Interactive Demo" }
+            { "category": "basic" },
+            { "category": "interactive" }
         ]
 
         delegate: Item {
@@ -35,10 +35,9 @@ Item {
                 id: segmentedFieldGroup
                 visible: del.index === 0
                 width: parent.width
-                title: listView.model[del.index].name
+                title: qsTr("Basic Examples")
             }
 
-            // Interactive Demo Section
             ColumnLayout {
                 id: interactiveDemo
                 visible: del.index === 1
@@ -46,98 +45,101 @@ Item {
                 spacing: UI.Size.pixel32
 
                 UI.Subtitle1 {
-                    text: listView.model[del.index].name
+                    text: qsTr("Interactive Demo")
                 }
 
-                ColumnLayout {
+                RowLayout {
+                    spacing: UI.Size.pixel32
+
+                    ColumnLayout {
+                        spacing: UI.Size.pixel12
+
+                        UI.Caption {
+                            text: qsTr("6-digit Verification Code")
+                            color: UI.Theme.text.secondary
+                        }
+
+                        Inputs.SegmentedField {
+                            id: codeField
+                            length: 6
+                            accent: UI.Theme.primary
+                            validator: RegularExpressionValidator { regularExpression: /^[0-9]$/ }
+
+                            onEditingFinished: statusText.text = qsTr("Code submitted: %1").arg(text)
+                        }
+
+                        Controls.MButton {
+                            type: Controls.MButton.Type.Text
+                            text: qsTr("Clear")
+                            accent: UI.Theme.primary
+                            onClicked: {
+                                codeField.clear()
+                                statusText.text = qsTr("Cleared")
+                            }
+                        }
+                    }
+
+                    ColumnLayout {
+                        spacing: UI.Size.pixel12
+
+                        UI.Caption {
+                            text: qsTr("4-digit PIN")
+                            color: UI.Theme.text.secondary
+                        }
+
+                        Inputs.SegmentedField {
+                            id: pinField
+                            length: 4
+                            accent: UI.Theme.success
+                            validator: RegularExpressionValidator { regularExpression: /^[0-9]$/ }
+
+                            onEditingFinished: statusText.text = qsTr("PIN submitted: %1").arg(text)
+                        }
+
+                        Controls.MButton {
+                            type: Controls.MButton.Type.Text
+                            text: qsTr("Clear")
+                            accent: UI.Theme.success
+                            onClicked: {
+                                pinField.clear()
+                                statusText.text = qsTr("Cleared")
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
                     Layout.fillWidth: true
-                    spacing: UI.Size.pixel16
+                    Layout.preferredHeight: statusLayout.implicitHeight + UI.Size.pixel24
+                    Layout.maximumWidth: 500 * UI.Size.scale
 
-                    UI.Subtitle2 {
-                        text: qsTr("Live Examples")
-                    }
+                    color: UI.Theme.background.paper
+                    border.color: UI.Theme.other.divider
+                    border.width: 1
+                    radius: UI.Size.pixel8
 
-                    RowLayout {
-                        spacing: UI.Size.pixel16
+                    ColumnLayout {
+                        id: statusLayout
+                        anchors {
+                            fill: parent
+                            margins: UI.Size.pixel12
+                        }
+                        spacing: UI.Size.pixel8
 
-                        Column {
-                            spacing: UI.Size.pixel8
-
-                            UI.Caption {
-                                text: qsTr("6-digit Code")
-                            }
-
-                            Inputs.SegmentedField {
-                                id: codeField
-                                length: 6
-                                accent: UI.Theme.primary
-
-                                onEditingFinished: {
-                                    console.log("Code entered:", text)
-                                }
-
-                                onInputTextChanged: (text) => {
-                                    console.log("Current input:", text)
-                                }
-                            }
-
-                            Controls.MButton {
-                                text: qsTr("Clear")
-                                onClicked: codeField.clear()
-                            }
+                        UI.Caption {
+                            text: qsTr("Code: \"%1\" (%2/%3 characters)").arg(codeField.text).arg(codeField.text.length).arg(codeField.length)
+                            color: UI.Theme.text.secondary
                         }
 
-                        Column {
-                            spacing: UI.Size.pixel8
-
-                            UI.Caption {
-                                text: qsTr("PIN (4 digits)")
-                            }
-
-                            Inputs.SegmentedField {
-                                id: pinField
-                                length: 4
-                                accent: UI.Theme.success
-                                validator: RegularExpressionValidator {
-                                    regularExpression: /^[0-9]$/
-                                }
-
-                                onEditingFinished: {
-                                    if (text.length === length) {
-                                        console.log("PIN complete:", text)
-                                    }
-                                }
-                            }
-
-                            Controls.MButton {
-                                text: qsTr("Clear PIN")
-                                onClicked: pinField.clear()
-                            }
+                        UI.Caption {
+                            text: qsTr("PIN: \"%1\" (%2/%3 characters)").arg(pinField.text).arg(pinField.text.length).arg(pinField.length)
+                            color: UI.Theme.text.secondary
                         }
-                    }
 
-                    // Status display
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: UI.Size.pixel64
-                        color: UI.Theme.background.paper
-                        border.color: UI.Theme.action.disabledBackground
-                        border.width: 1
-                        radius: UI.Size.pixel8
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: UI.Size.pixel12
-
-                            UI.Caption {
-                                text: qsTr("Code: '%1' (%2/%3)").arg(codeField.text).arg(codeField.text.length).arg(codeField.length)
-                            }
-
-                            Item { Layout.fillWidth: true }
-
-                            UI.Caption {
-                                text: qsTr("PIN: '%1' (%2/%3)").arg(pinField.text).arg(pinField.text.length).arg(pinField.length)
-                            }
+                        UI.Caption {
+                            id: statusText
+                            text: qsTr("Enter a code or PIN above")
+                            color: UI.Theme.primary.main
                         }
                     }
                 }
