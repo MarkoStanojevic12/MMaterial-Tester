@@ -88,6 +88,7 @@ Rectangle {
 	Component { id: timeShowcase; TimeShowcase{ } }
 	Component { id: colorPickerShowcase; ColorPickerShowcase{ } }
 	Component { id: busyIndicatorShowcase; BusyIndicatorShowcase{ } }
+	Component { id: onboardingShowcase; OnboardingShowcase{ } }
 
 	// Charts
 	Component { id: barChartShowcase; BarChartShowcase{ } }
@@ -228,7 +229,8 @@ Rectangle {
 				{text : "Accordion", onClicked: function(){ showcaseLoader.sourceComponent = accordionShowcase}},
 				{text : "Avatar", onClicked: function(){ showcaseLoader.sourceComponent = avatarShowcase }, "chip" : Qt.platform.os === "wasm" ? { "text" : qsTr("Non-WASM"), "accent": UI.Theme.warning } : null},
 				{text : "BusyIndicator", onClicked: function(){ showcaseLoader.sourceComponent = busyIndicatorShowcase }},
-				{text : "Download", onClicked: function(){ showcaseLoader.sourceComponent = downloadShowcase }, "chip" : Qt.platform.os === "wasm" ? { "text" : qsTr("Non-WASM"), "accent": UI.Theme.warning } : null}
+				{text : "Download", onClicked: function(){ showcaseLoader.sourceComponent = downloadShowcase }, "chip" : Qt.platform.os === "wasm" ? { "text" : qsTr("Non-WASM"), "accent": UI.Theme.warning } : null},
+				{text : "Guided Tour", onClicked: function(){ showcaseLoader.sourceComponent = onboardingShowcase }, "chip" : { "text" : qsTr("New"), "accent": UI.Theme.info }}
 			];
 		}
 	}

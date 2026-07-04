@@ -56,6 +56,7 @@ qt_add_qml_module(ShowcaseLib
         SpinBoxShowcase.qml
         SegmentedFieldGroup.qml
         SegmentedFieldShowcase.qml
+        OnboardingShowcase.qml
 )
 
 set_target_properties(ShowcaseLib PROPERTIES AUTOMOC ON)
