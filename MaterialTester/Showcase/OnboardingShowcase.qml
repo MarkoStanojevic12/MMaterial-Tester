@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls as QQC
 
 import MMaterial.UI as UI
 import MMaterial.Controls as Controls
@@ -18,6 +19,11 @@ Item {
 			eventLog.remove(7, eventLog.count - 7)
 	}
 
+	function closeMockApp() {
+		if (pageStack.depth > 1)
+			pageStack.pop()
+	}
+
 	ListModel { id: eventLog }
 
 	Onboarding.Tour {
@@ -27,9 +33,18 @@ Item {
 		dimOpacity: dimSlider.value
 
 		onStarted: root.log(qsTr("started()"))
-		onFinished: root.log(qsTr("finished() — persist a 'seen' flag here"))
-		onSkipped: (stepIndex) => root.log(qsTr("skipped(%1) — user dismissed").arg(stepIndex))
-		onAborted: root.log(qsTr("aborted() — target lost, nothing persisted"))
+		onFinished: {
+			root.log(qsTr("finished() — persist a 'seen' flag here"))
+			root.closeMockApp()
+		}
+		onSkipped: (stepIndex) => {
+			root.log(qsTr("skipped(%1) — user dismissed").arg(stepIndex))
+			root.closeMockApp()
+		}
+		onAborted: {
+			root.log(qsTr("aborted() — target lost, nothing persisted"))
+			root.closeMockApp()
+		}
 		onCurrentStepChanged: {
 			if (demoTour.currentStep)
 				root.log(qsTr("entered: %1").arg(demoTour.currentStep.title))
@@ -38,7 +53,7 @@ Item {
 		Onboarding.TourStep {
 			centered: true
 			title: qsTr("Welcome to Wanderlust Travel")
-			description: qsTr("A centered step needs no target — ideal for greetings. Every outcome fires its own signal: finishing, dismissing with X or Esc, or losing a target. Watch the event log as you go.")
+			description: qsTr("A centered step needs no target — ideal for greetings. Every outcome fires its own signal: finishing, dismissing with X or Esc, or losing a target. The full event log is waiting back on the control panel.")
 			skipButtonText: qsTr("Skip demo")
 
 			onSkipClicked: demoTour.stop()
@@ -114,50 +129,47 @@ Item {
 		Onboarding.TourStep {
 			centered: true
 			title: qsTr("That's the tour")
-			description: qsTr("Restart any time, try the one-off Highlight, or flip the switches in the control panel and run it again.")
+			description: qsTr("You will land back on the control panel with the full event log — flip the switches and run it again.")
 		}
 	}
 
-	Onboarding.Highlight {
-		id: quickHighlight
+	QQC.StackView {
+		id: pageStack
 
-		target: statsCard
-		title: qsTr("One-off highlight")
-		description: qsTr("Highlight wraps a single-step tour — show() and hide() are all you need for a quick callout.")
-
-		onFinished: root.log(qsTr("highlight finished()"))
-		onSkipped: root.log(qsTr("highlight skipped()"))
+		anchors.fill: parent
+		initialItem: controlPanelPage
 	}
 
-	RowLayout {
-		anchors.fill: parent
-		spacing: UI.Size.pixel24
+	Item {
+		id: controlPanelPage
 
 		ColumnLayout {
-			Layout.preferredWidth: 300 * UI.Size.scale
-			Layout.maximumWidth: 340 * UI.Size.scale
-			Layout.fillHeight: true
+			anchors {
+				top: parent.top
+				bottom: parent.bottom
+				horizontalCenter: parent.horizontalCenter
+			}
+			width: Math.min(parent.width, 420 * UI.Size.scale)
 			spacing: UI.Size.pixel16
 
 			UI.H6 { text: qsTr("Control panel") }
+
+			UI.B2 {
+				Layout.fillWidth: true
+				text: qsTr("Configure the tour here, then start it — a little travel agency slides in and the tour walks you through it. When it ends, you land right back here.")
+				color: UI.Theme.text.secondary
+				wrapMode: Text.Wrap
+			}
 
 			Controls.MButton {
 				Layout.fillWidth: true
 				implicitHeight: UI.Size.pixel48
 				text: qsTr("Start full tour")
 
-				onClicked: demoTour.start()
-			}
-
-			Controls.MButton {
-				Layout.fillWidth: true
-				implicitHeight: UI.Size.pixel48
-				type: Controls.MButton.Type.Outlined
-				text: qsTr("Quick highlight")
-
 				onClicked: {
 					mockContent.currentIndex = 0
-					quickHighlight.show()
+					pageStack.push(mockAppPage)
+					demoTour.start()
 				}
 			}
 
@@ -250,14 +262,17 @@ Item {
 				}
 			}
 		}
+	}
+
+	Item {
+		id: mockAppPage
+
+		visible: false
 
 		Rectangle {
 			id: mockApp
 
-			readonly property bool tourActive: demoTour.running || quickHighlight.running
-
-			Layout.fillWidth: true
-			Layout.fillHeight: true
+			anchors.fill: parent
 
 			radius: UI.Size.pixel16
 			color: UI.Theme.background.paper
@@ -268,16 +283,6 @@ Item {
 					margins: UI.Size.pixel20
 				}
 				spacing: UI.Size.pixel16
-
-				opacity: mockApp.tourActive ? 1 : 0.35
-				enabled: mockApp.tourActive
-
-				Behavior on opacity {
-					NumberAnimation {
-						duration: 250
-						easing.type: Easing.InOutQuad
-					}
-				}
 
 				RowLayout {
 					Layout.fillWidth: true
@@ -306,6 +311,7 @@ Item {
 					Item { Layout.fillWidth: true }
 
 					Controls.Chip {
+						visible: mockApp.width > 500 * UI.Size.scale
 						text: qsTr("Wanderlust Travel")
 						accent: UI.Theme.passive
 						xButton.visible: false
@@ -364,6 +370,7 @@ Item {
 						}
 
 						UI.Caption {
+							visible: mockApp.width > 500 * UI.Size.scale
 							text: qsTr("I am a conditional target")
 							color: UI.Theme.text.secondary
 						}
@@ -603,24 +610,6 @@ Item {
 							}
 						}
 					}
-				}
-			}
-
-			Rectangle {
-				anchors.centerIn: parent
-
-				visible: !mockApp.tourActive
-				width: hintLabel.implicitWidth + UI.Size.pixel32
-				height: hintLabel.implicitHeight + UI.Size.pixel16
-				radius: height / 2
-				color: UI.Theme.background.main
-
-				UI.Subtitle2 {
-					id: hintLabel
-
-					anchors.centerIn: parent
-					text: qsTr("Start the tour or the highlight to bring this demo to life")
-					color: UI.Theme.text.secondary
 				}
 			}
 		}
