@@ -316,18 +316,21 @@ Item {
 						accent: UI.Theme.passive
 						xButton.visible: false
 					}
+				}
 
-					Controls.MButton {
-						id: bookButton
+				Controls.MButton {
+					id: bookButton
 
-						implicitHeight: UI.Size.pixel40
-						text: qsTr("Book trip")
+					Layout.fillWidth: true
+					Layout.maximumWidth: 300 * UI.Size.scale
 
-						onClicked: {
-							root.log(qsTr("Book trip clicked"))
-							if (demoTour.currentStep === bookClickStep)
-								demoTour.next()
-						}
+					implicitHeight: UI.Size.pixel40
+					text: qsTr("Book trip")
+
+					onClicked: {
+						root.log(qsTr("Book trip clicked"))
+						if (demoTour.currentStep === bookClickStep)
+							demoTour.next()
 					}
 				}
 
@@ -387,65 +390,32 @@ Item {
 					ColumnLayout {
 						spacing: UI.Size.pixel16
 
-						RowLayout {
+						Rectangle {
+							id: statsCard
+
 							Layout.fillWidth: true
-							spacing: UI.Size.pixel16
+							Layout.preferredHeight: 110 * UI.Size.scale
 
-							Rectangle {
-								id: statsCard
+							radius: UI.Size.pixel12
+							color: UI.Theme.background.main
 
-								Layout.fillWidth: true
-								Layout.preferredHeight: 110 * UI.Size.scale
-
-								radius: UI.Size.pixel12
-								color: UI.Theme.background.main
-
-								ColumnLayout {
-									anchors {
-										fill: parent
-										margins: UI.Size.pixel16
-									}
-									spacing: UI.Size.pixel8
-
-									UI.Caption {
-										text: qsTr("Trips booked this year")
-										color: UI.Theme.text.secondary
-									}
-
-									UI.H6 { text: "1,284" }
-
-									Controls.MProgressBar {
-										Layout.fillWidth: true
-										progress: 72
-									}
+							ColumnLayout {
+								anchors {
+									fill: parent
+									margins: UI.Size.pixel16
 								}
-							}
+								spacing: UI.Size.pixel8
 
-							Rectangle {
-								Layout.fillWidth: true
-								Layout.preferredHeight: 110 * UI.Size.scale
+								UI.Caption {
+									text: qsTr("Trips booked this year")
+									color: UI.Theme.text.secondary
+								}
 
-								radius: UI.Size.pixel12
-								color: UI.Theme.background.main
+								UI.H6 { text: "1,284" }
 
-								ColumnLayout {
-									anchors {
-										fill: parent
-										margins: UI.Size.pixel16
-									}
-									spacing: UI.Size.pixel8
-
-									UI.Caption {
-										text: qsTr("Traveler satisfaction")
-										color: UI.Theme.text.secondary
-									}
-
-									UI.H6 { text: "4.9 / 5" }
-
-									Controls.MProgressBar {
-										Layout.fillWidth: true
-										progress: 98
-									}
+								Controls.MProgressBar {
+									Layout.fillWidth: true
+									progress: 72
 								}
 							}
 						}
@@ -581,16 +551,20 @@ Item {
 					id: actionBar
 
 					Layout.alignment: Qt.AlignHCenter
-					Layout.preferredWidth: actionBarRow.implicitWidth + UI.Size.pixel32
-					Layout.preferredHeight: UI.Size.pixel48
+					Layout.fillWidth: true
+					Layout.maximumWidth: 460 * UI.Size.scale
+					Layout.preferredHeight: actionBarFlow.implicitHeight + UI.Size.pixel16
 
 					radius: UI.Size.pixel12
 					color: UI.Theme.background.main
 
-					RowLayout {
-						id: actionBarRow
+					Flow {
+						id: actionBarFlow
 
-						anchors.centerIn: parent
+						anchors {
+							fill: parent
+							margins: UI.Size.pixel8
+						}
 						spacing: UI.Size.pixel8
 
 						Repeater {
